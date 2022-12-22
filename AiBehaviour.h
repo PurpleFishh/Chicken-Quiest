@@ -3,7 +3,7 @@
 #include "SpriteComponent.h"
 #include "DynamicCollisionComponent.h"
 
-class AiBehaviour : public SpriteComponent
+class AiBehaviour : public DynamicCollisionComponent
 {
 private:
 	DynamicCollisionComponent *dynamiccol;

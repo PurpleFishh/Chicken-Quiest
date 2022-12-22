@@ -11,13 +11,31 @@ void AiBehaviour::init()
 
 void AiBehaviour::update()
 {
-	if (!(dynamiccol->collisionYcorner1 && dynamiccol->collisionYcorner2))
+	//dynamiccol->setNewPosition();
+	//cout << dynamiccol->collisionYcorner2 << endl;
+	if (!dynamiccol->collisionYcorner2)
 	{
 		posdetails->sign.x *= -1;
-		posdetails->velocity.x *= -1;
-		cout << dynamiccol->collisionYcorner1 << ' ' << dynamiccol->collisionYcorner2 << endl;
+		//posdetails->velocity.x *= -1;
+		dynamiccol->solveCollision(posdetails->width, posdetails->height, false, true, false, false);
+		//cout << dynamiccol->collisionYcorner1 << ' ' << dynamiccol->collisionYcorner2 << endl;
+	}
+	else if (!dynamiccol->collisionYcorner1)
+	{
+		posdetails->sign.x = 1;
+		//posdetails->velocity.x *= -1;
+		//destRect.x = (int)posdetails->position.x;
+		//cout << destRect.x << endl;
+		dynamiccol->solveCollision(posdetails->width, posdetails->height, true, false, false, false);
+		//destRect.x = ((int)(destRect.x / 64) + 1) * 64;
+		//posdetails->velocity.x = 0;
+		//cout << destRect.x << ' ' << posdetails->position << endl;
+		//posdetails->position.x = destRect.x;
 	}
 	else
-		if (dynamiccol->collisionX)
+		if (dynamiccol->collisionXcorner1 || dynamiccol->collisionXcorner2)
+		{
 			posdetails->sign.x *= -1;
+			posdetails->velocity.x = 0;
+		}
 }

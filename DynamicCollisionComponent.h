@@ -11,9 +11,9 @@ private:
 	bool borderCollision();
 public:
 	bool onGround = false, isFalling = false;
-	bool collisionX = false, collisionYcorner1 = false, collisionYcorner2 = false;
+	bool collisionXcorner1 = false, collisionXcorner2 = false, collisionYcorner1 = false, collisionYcorner2 = false;
 
-	void setNewPosition();
+	virtual void setNewPosition();
 	void solveCollision(int tileW, int tileH, bool collsioncornerX1, bool collsioncornerX2, bool collsioncornerY1, bool collsioncornerY2);
 	
 	void init() override;
