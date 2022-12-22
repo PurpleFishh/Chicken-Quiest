@@ -21,4 +21,8 @@ public:
 
 	void init() override;
 	void update() override;
+
+	virtual void setNewPosition();
+	Vector2D getPotentialPosition();
+	Vector2D getPotentialVelocity();
 };

@@ -65,7 +65,9 @@ public:
 	void update()
 	{
 		for (auto& component : components)
+		{
 			component->update();
+		}
 	}
 	// Executam functia de draw pentru toate componentele
 	void draw()

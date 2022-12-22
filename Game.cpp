@@ -53,10 +53,10 @@ void Game::init(const char* title, int xpos, int ypos, int width, int height, bo
 	}
 	keys_state = SDL_GetKeyboardState(0);
 
+	player.addCompoent<DynamicCollisionComponent>();
 	player.addCompoent<PositionComponent>(64, 0, PLAYER_H, PLAYER_W, 1.0f, 1, true);
 	//player.addCompoent<PositionComponent>(0, 0, 43, 64, 1, 1, true);
 	player.addCompoent<KeyboardControllerComponent>();
-	player.addCompoent<DynamicCollisionComponent>();
 	player.addCompoent<SpriteComponent>(Textures::textures.at(2));
 	player.addCompoent<CollisionComponent>("player");
 	player.addCompoent<CameraTarget>();
@@ -70,13 +70,13 @@ void Game::init(const char* title, int xpos, int ypos, int width, int height, bo
 	enemy1.addCompoent<CollisionComponent>("enemy");
 	Layers::add(&enemy1, Layers::layerEnemy);*/
 
-	auto& enemy2 = ECS_Manager.addEntity();
+	/*auto& enemy2 = ECS_Manager.addEntity();
 	enemy2.addCompoent<PositionComponent>(128, 64, 43, 64, 0.3f, 1, true);
 	enemy2.addCompoent<DynamicCollisionComponent>();
 	enemy2.addCompoent<AiBehaviour>();
 	enemy2.addCompoent<SpriteComponent>(Textures::textures.at(3));
 	enemy2.addCompoent<CollisionComponent>("enemy");
-	Layers::add(&enemy2, Layers::layerEnemy);
+	Layers::add(&enemy2, Layers::layerEnemy);*/
 	
 	Map::LoadMap(lvl1Map_path);
 }

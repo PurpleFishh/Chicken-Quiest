@@ -41,17 +41,20 @@ void SpriteComponent::init()
 // Virtual cu DynamicColl care poate actiualiza destRect cu o poz fara coliziune
 void SpriteComponent::setNewPosition()
 {
-	destRect.x = (int)posdetails->position.x;
-	destRect.y = (int)posdetails->position.y;
+	
 }
 
 void SpriteComponent::update()
 {
-	setNewPosition();
-
+	//setNewPosition();
+	destRect.x = (int)posdetails->position.x;
+	destRect.y = (int)posdetails->position.y;
+	
+	
 	// Verificam daca e entitatea care trebuie urmarita de camera
 	if (entity->hasComponent<CameraTarget>())
 	{
+		cout << posdetails->position << endl;
 		destRect.x = destRect.x - (CameraTarget::camera.x);
 		destRect.y = destRect.y - (CameraTarget::camera.y);
 	}
