@@ -30,7 +30,7 @@ Entity& EntityConstructor::spawnPlayer(const Vector2D& spawn_position)
 Entity& EntityConstructor::spawnEnemy(const Vector2D& spawn_position)
 {
 	auto& enemy = ECS_Manager.addEntity();
-	enemy.addCompoent<PositionComponent>(spawn_position.x, spawn_position.y, ENEMY_H, ENEMY_W, 0.3f + Map::difficulty / 10., 1.f, true);
+	enemy.addCompoent<PositionComponent>(spawn_position.x, spawn_position.y, ENEMY_H, ENEMY_W, 0.3f + Map::difficulty / 10.f, 1.f, true);
 	enemy.addCompoent<DynamicCollisionComponent>();
 	enemy.addCompoent<SpriteComponent>(Textures::animations_textures.at(1), Textures::animations.at(1));
 	enemy.addCompoent<AiBehaviour>(1);

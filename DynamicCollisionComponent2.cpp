@@ -42,8 +42,8 @@ void DynamicCollisionComponent2::SolveCollisionAI(PositionComponent* collider_po
 {
 
 	// Calculate the overlapping area
-	int overlap_x = std::min(position->position.x + position->width, collider_pos->position.x + collider_pos->width) - std::max(position->position.x, collider_pos->position.x);
-	int overlap_y = std::min(position->position.y + position->height, collider_pos->position.y + collider_pos->height) - std::max(position->position.y, collider_pos->position.y);
+	int overlap_x = static_cast<int>(std::min(position->position.x + position->width, collider_pos->position.x + collider_pos->width) - std::max(position->position.x, collider_pos->position.x));
+	int overlap_y = static_cast<int>(std::min(position->position.y + position->height, collider_pos->position.y + collider_pos->height) - std::max(position->position.y, collider_pos->position.y));
 
 	// Decide which side the collision is happening and move rect1 accordingly
 	if (overlap_x < overlap_y) {

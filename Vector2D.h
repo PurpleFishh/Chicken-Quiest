@@ -21,7 +21,7 @@ public:
 	Vector2D& mul(const float& val);
 	Vector2D& div(const float& val);
 
-	double length();
+	float length();
 	Vector2D& normalize();
 
 	friend Vector2D& operator+(Vector2D& vec1, const Vector2D& vec2);

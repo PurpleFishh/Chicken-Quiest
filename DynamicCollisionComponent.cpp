@@ -173,8 +173,8 @@ void DynamicCollisionComponent::SolveCollisionOverlay(int tileW, int tileH, bool
 
 	// Calculate the overlapping area
 	auto pos = Layers::getLayer(Layers::scenGame, (int)Layers::game_layers::layerGoldenEggs).at(0)->getComponent<PositionComponent>();
-	int overlap_x = std::min(position->position.x + position->width, pos->position.x + pos->width) - std::max(position->position.x, pos->position.x);
-	int overlap_y = std::min(position->position.y + position->height, pos->position.y + pos->height) - std::max(position->position.y, pos->position.y);
+	int overlap_x = static_cast<int>(std::min(position->position.x + position->width, pos->position.x + pos->width) - std::max(position->position.x, pos->position.x));
+	int overlap_y = static_cast<int>(std::min(position->position.y + position->height, pos->position.y + pos->height) - std::max(position->position.y, pos->position.y));
 
 	// Decide which side the collision is happening and move rect1 accordingly
 	if (overlap_x > overlap_y) {

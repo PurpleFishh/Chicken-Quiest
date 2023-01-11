@@ -84,18 +84,17 @@ Vector2D& Vector2D::div(const float& val)
 	return *this;
 }
 
-double Vector2D::length()
+float Vector2D::length()
 {
 	return sqrt(x * x + y * y);
 }
 Vector2D& Vector2D::normalize()
 {
-	double len = length();
-	Vector2D *aux = this;
-	aux->x /= len;
-	aux->y /= len;
+	float len = length();
+	this->x /= len;
+	this->y /= len;
 
-	return *aux;
+	return *this;
 }
 
 Vector2D& operator+(Vector2D& vec1, const Vector2D& vec2)
@@ -149,8 +148,7 @@ Vector2D& operator-(Vector2D& vec1, const float& val)
 Vector2D& operator*(Vector2D& vec1, const float& val)
 {
 	Vector2D aux = vec1;
-	aux.mul(val);
-	return aux;
+	return aux.mul(val);
 }
 Vector2D& operator/(Vector2D& vec1, const float& val)
 {

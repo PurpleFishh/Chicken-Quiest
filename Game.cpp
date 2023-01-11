@@ -83,7 +83,7 @@ void Game::handleEvents()
 		{
 			int x, y;
 			SDL_GetMouseState(&x, &y);
-			mouse_pos.x = x, mouse_pos.y = y;
+			mouse_pos.x = (float)(x), mouse_pos.y = (float)(y);
 		}
 		//ECS_Manager.handleEvents();
 		Layers::handlerLayers(ScenesManager::getShowingScen());
