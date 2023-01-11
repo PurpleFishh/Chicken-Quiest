@@ -1,19 +1,11 @@
 #include "CollisionComponent.h"
 #include "SpriteComponent.h"
 #include "Game.h"
+#include "ErrorHandler.h"
 
 
 CollisionComponent::CollisionComponent(std::string type)
 {
-	this->type = type;
-}
-
-CollisionComponent::CollisionComponent(int x, int y, int w, int h, std::string type)
-{
-	colliderbox.x = x;
-	colliderbox.y = y;
-	colliderbox.w = w;
-	colliderbox.h = h;
 	this->type = type;
 }
 std::string CollisionComponent::getType()
@@ -23,37 +15,15 @@ std::string CollisionComponent::getType()
 
 void CollisionComponent::init()
 {
-	if (!entity->hasComponent<PositionComponent>())
-		entity->addCompoent<PositionComponent>();
-	posdetails = entity->getComponent<PositionComponent>();
-
-	//if (type == "player")
-	//colliderbox = entity->getComponent<SpriteComponent>()->destRect;
-
-	colliderbox.x = posdetails->position.x;
-	colliderbox.y = posdetails->position.y;
-	colliderbox.w = posdetails->width * posdetails->scale;
-	colliderbox.h = posdetails->height * posdetails->scale;
-
-	destRect = colliderbox;
-	//texture = ...
-}
-
-void CollisionComponent::update()
-{
-	destRect = entity->getComponent<SpriteComponent>()->destRect;
-
-	if(type != "ground")
-	{
-		colliderbox.x = posdetails->position.x;
-		colliderbox.y = posdetails->position.y;
-		colliderbox.w = posdetails->width * posdetails->scale;
-		colliderbox.h = posdetails->height * posdetails->scale;
+	try {
+		sprite = entity->getComponent<SpriteComponent>();
+		if (!entity->hasComponent<SpriteComponent>())		throw ErrorHandler(typeid(CollisionComponent).name(), typeid(SpriteComponent).name());
 	}
+	catch (ErrorHandler e) { sprite = &entity->addCompoent<SpriteComponent>(); }
+	catch (std::exception& ex) { cout << ex.what() << endl; }
 }
-
 void CollisionComponent::draw()
 {
 	SDL_SetRenderDrawColor(Game::renderer, 255, 0, 0, 255);
-	SDL_RenderDrawRect(Game::renderer, &destRect);
+	SDL_RenderDrawRect(Game::renderer, &sprite->destRect);
 }

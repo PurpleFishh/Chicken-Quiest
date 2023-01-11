@@ -27,9 +27,16 @@ TileComponent::TileComponent(int srcX, int srcY, int x, int y, int tilesize, int
 	destRect.y = y;
 	destRect.w = destRect.h =tilesize * tilescale;
 }
+TileComponent::TileComponent(int srcX, int srcY, int x, int y, int tilesize, int tilescale, SDL_Texture* texture, bool flip) : TileComponent(srcX, srcY, x, y, tilesize, tilescale, texture)
+{
+	this->flip = flip;
+}
+
 
 void TileComponent::init()
 {
-	entity->addCompoent<PositionComponent>(destRect.x, destRect.y);
-	entity->addCompoent<SpriteComponent>(texture);
+	entity->addCompoent<PositionComponent>((float)destRect.x, (float)destRect.y);
+	auto& sprite = entity->addCompoent<SpriteComponent>(texture);
+	if (flip)
+		sprite.spriteFlip = SDL_FLIP_HORIZONTAL;
 }

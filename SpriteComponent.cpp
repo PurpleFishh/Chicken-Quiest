@@ -1,10 +1,10 @@
 #include "SpriteComponent.h"
-#include "Collision.h"
-#include "Game.h"
-#include "Map.h"
-#include "CollisionComponent.h"
 #include "DynamicCollisionComponent.h"
+#include "Game.h"
 #include "CameraTarget.h"
+#include "Layering.h"
+#include "ScenesManager.h"
+#include "ErrorHandler.h"
 
 SpriteComponent::SpriteComponent(const char* textureFile)
 {
@@ -14,11 +14,32 @@ SpriteComponent::SpriteComponent(SDL_Texture* texture)
 {
 	this->texture = texture;
 }
-
-//SpriteComponent::~SpriteComponent()
-//{
-//	SDL_DestroyTexture(texture);
-//}
+SpriteComponent::SpriteComponent(SDL_Texture* texture, int texture_id) : SpriteComponent(texture)
+{
+	this->texture_id = texture_id;
+}
+SpriteComponent::SpriteComponent(SDL_Texture* texture, int src_width, int src_height) : SpriteComponent(texture)
+{
+	this->src_width = src_width;
+	this->src_height = src_height;
+}
+SpriteComponent::SpriteComponent(SDL_Texture* texture, int src_width, int src_height, int texture_id) : SpriteComponent(texture, src_width, src_height)
+{
+	this->texture_id = texture_id;
+}
+SpriteComponent::SpriteComponent(SDL_Texture* texture, animations_type animations)
+{
+	setTexture(texture, animations);
+}
+SpriteComponent::SpriteComponent(SDL_Texture* texture, animations_type animations, int src_width, int src_height) : SpriteComponent(texture, animations)
+{
+	this->src_width = src_width;
+	this->src_height = src_height;
+}
+SpriteComponent::SpriteComponent(SDL_Texture* texture, animations_type animations, void(*PlayOnceAfterPlay)(Entity* entity)) : SpriteComponent(texture, animations)
+{
+	this->PlayOnceAfterPlay = PlayOnceAfterPlay;
+}
 
 void SpriteComponent::setTexture(const char* textureFile)
 {
@@ -28,49 +49,112 @@ void SpriteComponent::setTexture(SDL_Texture* texture)
 {
 	this->texture = texture;
 }
+void SpriteComponent::setTexture(SDL_Texture* texture, int texture_id)
+{
+	setTexture(texture);
+	this->texture_id = texture_id;
+}
+void SpriteComponent::setTexture(SDL_Texture* texture, animations_type animations)
+{
+	animated = true;
+	this->animations = animations;
+	this->texture = texture;
+	playAnimation(animations.begin()->first);
+}
 
 void SpriteComponent::init()
 {
-	posdetails = entity->getComponent<PositionComponent>();
+	try {
+		posdetails = entity->getComponent<PositionComponent>();
+		if (!entity->hasComponent<PositionComponent>())		throw ErrorHandler(typeid(SpriteComponent).name(), typeid(PositionComponent).name());
+	}
+	catch (ErrorHandler e) { posdetails = &entity->addCompoent<PositionComponent>(); }
+	catch (std::exception& ex) { cout << ex.what() << endl; }
 
 	srcRect.x = srcRect.y = 0;
-	srcRect.h = posdetails->height * posdetails->scale;
-	srcRect.w = posdetails->width * posdetails->scale;
-}
-
-// Virtual cu DynamicColl care poate actiualiza destRect cu o poz fara coliziune
-void SpriteComponent::setNewPosition()
-{
-	
+	if (src_width == 0 && src_height == 0)
+	{
+		srcRect.h = (int)(posdetails->height);
+		srcRect.w = (int)(posdetails->width);
+	}
+	else
+	{
+		srcRect.h = src_height;
+		srcRect.w = src_width;
+	}
 }
 
 void SpriteComponent::update()
 {
-	//setNewPosition();
-	destRect.x = (int)posdetails->position.x;
-	destRect.y = (int)posdetails->position.y;
-	
-	
-	// Verificam daca e entitatea care trebuie urmarita de camera
-	if (entity->hasComponent<CameraTarget>())
+	// play the needed frame from the animation
+	if (animated)
 	{
-		cout << posdetails->position << endl;
-		destRect.x = destRect.x - (CameraTarget::camera.x);
-		destRect.y = destRect.y - (CameraTarget::camera.y);
-	}
-	else
-	{
-		destRect.x = destRect.x - (CameraTarget::cameraOffset.x);
-		destRect.y = destRect.y - (CameraTarget::cameraOffset.y);
+		// Daca are doar un frame nu are rost sa tinem acest timer pentru animatie
+		if (frames > 1)
+			animation_timer++;
+
+		int futureframe = srcRect.w * static_cast<int>((int)((animation_timer + 1) / (speed / delta_time)) % frames), oldy = srcRect.y;
+
+		srcRect.x = srcRect.w * static_cast<int>((int)(animation_timer / (speed / delta_time)) % frames);
+		srcRect.y = static_cast<int>(animation_row * posdetails->height * posdetails->scale);
+
+		// Verificam daca s-a schimbat linia din sprite sheet sa resetam timerul sau s-a revenit la prima coloana
+		if (oldy != srcRect.y)
+			animation_timer = 0;
+		if (srcRect.x != 0 && futureframe == 0)
+		{
+			animation_timer = 0;
+			// Optiunea de a nu repeta animatia
+			if (PlayOnceAfterPlay != nullptr)
+			{
+				(*PlayOnceAfterPlay)(entity);
+				PlayOnceAfterPlay = nullptr;
+			}
+		}
 	}
 
-	destRect.h = posdetails->height * posdetails->scale;
-	destRect.w = posdetails->width * posdetails->scale;
+	destRect.x = (int)posdetails->position.x;
+	destRect.y = (int)posdetails->position.y;
+
+	// Verificam daca e entitatea care trebuie urmarita de camera
+	if (ScenesManager::getShowingScen() == (int)Layers::scenGame)
+		if (entity->getLayer_Id() != (int)Layers::game_layers::layerBar)
+			if (entity->hasComponent<CameraTarget>())
+			{
+				destRect.x = (int)(destRect.x - (CameraTarget::camera.x));
+				destRect.y = (int)(destRect.y - (CameraTarget::camera.y));
+			}
+			else
+			{
+				destRect.x = (int)(destRect.x - (CameraTarget::cameraOffset.x));
+				destRect.y = (int)(destRect.y - (CameraTarget::cameraOffset.y));
+			}
+
+	destRect.h = (int)(posdetails->height * posdetails->scale);
+	destRect.w = (int)(posdetails->width * posdetails->scale);
+}
+
+void SpriteComponent::playAnimation(std::string animationName)
+{
+
+	frames = animations[animationName].frames;
+	animation_row = animations[animationName].row;
+	speed = animations[animationName].speed;
+}
+void SpriteComponent::playAnimation(std::string animationName, void(*PlayOnceAfterPlay)(Entity* entity))
+{
+	playAnimation(animationName);
+	this->PlayOnceAfterPlay = PlayOnceAfterPlay;
+}
+
+bool SpriteComponent::playingThisAnimation(std::string animationName)
+{
+	return animation_row == animations[animationName].row;
 }
 
 void SpriteComponent::draw()
 {
-	TextureManager::Draw(texture, srcRect, destRect);
+	TextureManager::Draw(texture, srcRect, destRect, spriteFlip, entity->getLayer_Id() != (int)Layers::game_layers::layerBackground);
 }
 
 

@@ -9,7 +9,7 @@ void System::inactive_verify()
 		if (entity != nullptr)
 			if (!entity->isActive())
 			{
-				Layers::removeEntity(entity.get());
+				Layers::removeEntity(Layers::scenGame, entity.get());
 				entities.erase(std::remove_if(std::begin(entities), std::end(entities),
 					[](const std::unique_ptr<Entity>& mEntity)
 					{
@@ -18,5 +18,4 @@ void System::inactive_verify()
 					std::end(entities));
 			}
 	}
-	//cout << entities.size() << ' ' << Layers::getLayer(Layers::layerPlayer).size() << endl;
 }

@@ -23,6 +23,13 @@ PositionComponent::PositionComponent(float x, float y, float scale)
 	position.y = y;
 	this->scale = scale;
 }
+PositionComponent::PositionComponent(float x, float y, int h, int w)
+{
+	position.x = x;
+	position.y = y;
+	height = h;
+	width = w;
+}
 PositionComponent::PositionComponent(float x, float y, int h, int w, float speed, float scale)
 {
 	position.x = x;
@@ -47,23 +54,8 @@ void PositionComponent::init()
 {
 	velocity.x = 0;
 	velocity.y = 0;
-
-	
-	/*{
-		cout << position << endl;
-		cout << velocity << endl;
-		cout << sign << endl;
-		cout << height << width << endl;
-	}*/
 }
 void PositionComponent::update()
-{
-	if (entity->getLayer_Id() == 2)
-		cout << position << endl;
-	setNewPosition();
-}
-
-void PositionComponent::setNewPosition()
 {
 	velocity = getPotentialVelocity();
 	position = getPotentialPosition();

@@ -61,6 +61,12 @@ private:
 	// -1 -> nu face parte din niciun Layer
 	int Layer_Id = -1;
 public:
+	~Entity()
+	{
+		active = false;
+		cout << "Entity destroyed" << endl;
+	}
+	
 	// Executam functia de update pentru toate componentele
 	void update()
 	{

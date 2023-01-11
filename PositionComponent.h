@@ -16,13 +16,13 @@ public:
 	PositionComponent(float scale);
 	PositionComponent(float x, float y);
 	PositionComponent(float x, float y, float scale);
+	PositionComponent(float x, float y, int h, int w);
 	PositionComponent(float x, float y, int h, int w, float speed, float scale);
 	PositionComponent(float x, float y, int h, int w, float speed, float scale, bool gravity);
 
 	void init() override;
 	void update() override;
 
-	virtual void setNewPosition();
 	Vector2D getPotentialPosition();
 	Vector2D getPotentialVelocity();
 };

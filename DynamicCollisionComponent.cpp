@@ -3,221 +3,320 @@
 #include "Map.h"
 #include "Game.h"
 #include "CollisionComponent.h"
-#include "AiBehaviour.h"
+#include "EntitiesDeathManager.h"
+#include "EntityConstructor.h"
+#include "KeyboardControllerComponent.h"
+#include "CollisionUtils.h"
+#include "ErrorHandler.h"
 
 
 void DynamicCollisionComponent::init()
 {
-	PositionComponent::init();
+	try {
+		position = entity->getComponent<PositionComponent>();
+		if (!entity->hasComponent<PositionComponent>())		throw ErrorHandler(typeid(DynamicCollisionComponent).name(), typeid(PositionComponent).name());
+	}
+	catch (ErrorHandler e) { position = &entity->addCompoent<PositionComponent>(); }
+	catch (std::exception& ex) { cout << ex.what() << endl; }
+
 	// Gravity
-	PositionComponent& pos = entity->addCompoent<PositionComponent>();
-	position = pos.position;
-	velocity = pos.velocity;
-	sign = pos.sign;
-	height = pos.height;
-	width = pos.width;
-	
-	sign.y = 1;
+	position->sign.y = 1;
 }
 
-void DynamicCollisionComponent::setNewPosition()
+void DynamicCollisionComponent::update()
 {
-	velocity = getPotentialVelocity();
-	position = getPotentialPosition();
-	/*cout << position << endl;
-	cout << velocity << endl;
-	cout << sign << endl;
-	cout << height << width << endl;*/
-	collisionXcorner1 = collisionXcorner2 = collisionYcorner1 = collisionYcorner2 = false;
+	collsionManager(true, true, Layers::getLayer(Layers::scenGame, (int)Layers::game_layers::layerMap), &DynamicCollisionComponent::verifyTileCollision, &DynamicCollisionComponent::solveCollision);
+	if (entity->getLayer_Id() == (int)Layers::game_layers::layerEnemy)
+		collsionManager(false, false, Layers::getLayer(Layers::scenGame, (int)Layers::game_layers::layerPlayer), &DynamicCollisionComponent::verifyEntityCollision, &DynamicCollisionComponent::enemyHit);
+	if (entity->getLayer_Id() == (int)Layers::game_layers::layerPlayer)
+		collsionManager(false, false, Layers::getLayer(Layers::scenGame, (int)Layers::game_layers::layerGoldenEggs), &DynamicCollisionComponent::verifyEntityCollision, &DynamicCollisionComponent::playerWin);
+}
 
-	if (borderCollision()) return;
+void  DynamicCollisionComponent::collsionManager(bool onGroundFlagModify, bool CollsionFlagsModify, const vector<Entity*>& what_is_verified, bool (DynamicCollisionComponent::* verifier)(float x, float y, const vector<Entity*>& what_is_verified),
+	void (DynamicCollisionComponent::* solveCollision)(int tileW, int tileH, bool collsioncornerX1, bool collsioncornerX2, bool collsioncornerY1, bool collsioncornerY2))
+{
+	if (CollsionFlagsModify)
+		collisionXcorner1 = collisionXcorner2 = collisionYcorner1 = collisionYcorner2 = false;
+
+	if (CollsionFlagsModify) borderCollision();
 
 	// BugFix: - Daca playerul era in cadere, se misca pe axa X si cadea intre doua tile-uri acesta era teleportat la marginea tile-ului din spate
 	//		   - Folosim colX pentru a semnala daca a avut loc o coliziune pe axa X(folosim verificarea pentru coloziunile din cadere de exemplu de un perete)
 	//         - Folosim in colziunea pe Y colX sa vedem daca colziunea a fost rezolvata cu ajutorul lui X sa nu ii mai schimbam pozitia dubios la player
 	//         - Si apoi in final verificam iar coloziunea pe X pentru ca coloziunea cand acesta este pe o platforma(onGround)
-	if (velocity.x < 0)
+	if (position->velocity.x < 0)
 	{
 		// Alt Doamne fereste...
 
 		// Verificam coliziuni pentru mers in stanga
 		// Verificam daca exisata coliziunea in coltul din stanga sus si stanga jos al entitatii
-		if (verifyTileCollision(position.x, position.y + 7) || verifyTileCollision(position.x, position.y + height - 2))
-			if (!verifyTileCollision(position.x + width - 1, position.y + height + 2))
-				if (!verifyTileCollision(position.x + width, position.y))
+		if ((this->*verifier)(position->position.x, position->position.y + 7, what_is_verified) || (this->*verifier)(position->position.x, position->position.y + position->height - 7, what_is_verified))
+			if (!(this->*verifier)(position->position.x + position->width - 1, position->position.y + position->height + 2, what_is_verified))
+				if (!(this->*verifier)(position->position.x + position->width, position->position.y, what_is_verified))
 				{
 					// Daca entitatea e in cadere
 					if (!onGround)
 					{
-						solveCollision(TILE_SIZE, TILE_SIZE, true, false, false, false);
-
-						velocity.x = 0;
-						collisionXcorner1 = true;
+						(this->*solveCollision)(TILE_SIZE, TILE_SIZE, true, false, false, false);
+						if (CollsionFlagsModify)
+							collisionXcorner1 = true;
+						//cout << "coll x1" << endl;
 					}
 				}
 	}
 	else
-		if (velocity.x != 0)
+		if (position->velocity.x != 0)
 		{
 			// Verificam coliziuni pentru mers in dreapta
 			// Verificam daca exisata coliziunea in coltul din dreapta sus si dreapta jos al entitatii
-			if (verifyTileCollision(position.x + width, position.y + 7) || verifyTileCollision(position.x + width, position.y + height - 2))
-				if (!verifyTileCollision(position.x + 1, position.y + height))
-					if (!verifyTileCollision(position.x, position.y))
+			if ((this->*verifier)(position->position.x + position->width, position->position.y + 7, what_is_verified) || (this->*verifier)(position->position.x + position->width, position->position.y + position->height - 2, what_is_verified))
+				if (!(this->*verifier)(position->position.x + 1, position->position.y + position->height, what_is_verified))
+					if (!(this->*verifier)(position->position.x, position->position.y, what_is_verified))
 					{
 						// Daca entitatea e in cadere
 						if (!onGround)
 						{
-							solveCollision(TILE_SIZE, TILE_SIZE, false, true, false, false);
+							(this->*solveCollision)(TILE_SIZE, TILE_SIZE, false, true, false, false);
+							if (CollsionFlagsModify)
+								collisionXcorner2 = true;
 
-							velocity.x = 0;
-							collisionXcorner2 = true;
-
+							//cout << "coll x2" << endl;
 						}
 					}
 		}
-	onGround = false;
+	if (onGroundFlagModify)
+		onGround = false;
 	// Verificam coliziuni pe y
-	if (velocity.y < 0)
+	if (position->velocity.y < 0)
 	{
 		// Verificam coliziuni pentru mers in sus
 		// Verificam daca exisata coliziunea in coltul din stanga sus si dreapta sus al entitatii
-		if (verifyTileCollision(position.x, position.y) || verifyTileCollision(position.x + width - 1, position.y))
+		if ((this->*verifier)(position->position.x, position->position.y, what_is_verified) || (this->*verifier)(position->position.x + position->width - 1, position->position.y, what_is_verified))
 		{
 			//cout << "Coll y\n";
 			// Daca a avut loc coliziune pe X il lasam in pace
-			if (!(collisionXcorner1 && collisionXcorner2))
+			if (!CollsionFlagsModify || !(collisionXcorner1 && collisionXcorner2))
 			{
-				solveCollision(TILE_SIZE, TILE_SIZE, false, false, true, false);
-
-				collisionYcorner1 = verifyTileCollision(position.x, position.y);
-				collisionYcorner2 = verifyTileCollision(position.x + width - 1, position.y);
+				(this->*solveCollision)(TILE_SIZE, TILE_SIZE, false, false, true, false);
+				if (CollsionFlagsModify)
+				{
+					collisionYcorner1 = (this->*verifier)(position->position.x, position->position.y, what_is_verified);
+					collisionYcorner2 = (this->*verifier)(position->position.x + position->width - 1, position->position.y, what_is_verified);
+				}
 				//cout << "coll y1" << endl;
 			}
 		}
 	}
 	else
-		if (velocity.y != 0)
+		if (position->velocity.y != 0)
 		{
 			// Verificam coliziuni pentru mers in jos
 			// Verificam daca exisata coliziunea in coltul din stanga jos si dreapta jos al entitatii
-			if (verifyTileCollision(position.x + 1, position.y + height) || verifyTileCollision(position.x + width - 1, position.y + height))
+			if ((this->*verifier)(position->position.x + 1, position->position.y + position->height, what_is_verified) || (this->*verifier)(position->position.x + position->width - 1, position->position.y + position->height, what_is_verified))
 			{
 				//cout << "Coll y\n";
 				// Daca a avut loc coliziune pe X il lasam in pace
-				if (!(collisionXcorner1 && collisionXcorner2))
+				if (!CollsionFlagsModify || !(collisionXcorner1 && collisionXcorner2))
 				{
 
-					solveCollision(TILE_SIZE, TILE_SIZE, false, false, false, true);
-					collisionYcorner1 = verifyTileCollision(position.x - 2, position.y + height);
-					collisionYcorner2 = verifyTileCollision(position.x + width + 5, position.y + height);
-					//if (entity->getLayer_Id() == 3)
-					//	cout << collisionYcorner1 << ' ' << collisionYcorner2 << endl;
+					(this->*solveCollision)(TILE_SIZE, TILE_SIZE, false, false, false, true);
+					if (CollsionFlagsModify)
+					{
+						collisionYcorner1 = (this->*verifier)(position->position.x + 2, position->position.y + position->height, what_is_verified);
+						collisionYcorner2 = (this->*verifier)(position->position.x + position->width - 2, position->position.y + position->height, what_is_verified);
+					}
 				}
-				onGround = true;
+				//cout << "coll y2" << endl;
+				if (onGroundFlagModify)
+					onGround = true;
 			}
 		}
 
 	// Verificam coliziuni pe x
-	if (velocity.x < 0)
+	if (position->velocity.x < 0)
 	{
 		// Verificam coliziuni pentru mers in stanga
 		// Verificam daca exisata coliziunea in coltul din stanga sus si stanga jos al entitatii
-		if (verifyTileCollision(position.x, position.y + 1) || verifyTileCollision(position.x, position.y - 1 + height))
+		if ((this->*verifier)(position->position.x, position->position.y + 1, what_is_verified) || (this->*verifier)(position->position.x, position->position.y - 1 + position->height, what_is_verified))
 		{
 			// Verificam cand e deja pe pamant cu aceasta informatie actualizata deja mai sus
 			if (onGround)
 			{
-				solveCollision(TILE_SIZE, TILE_SIZE, true, false, false, false);
-				collisionXcorner1 = true;
+				(this->*solveCollision)(TILE_SIZE, TILE_SIZE, true, false, false, false);
+				if (CollsionFlagsModify)
+					collisionXcorner1 = true;
+				//cout << "coll x1" << endl;
 			}
 		}
 	}
 	else
-		if (velocity.x != 0)
+		if (position->velocity.x != 0)
 		{
 			// Verificam coliziuni pentru mers in dreapta
 			// Verificam daca exisata coliziunea in coltul din dreapta sus si dreapta jos al entitatii
-			if (verifyTileCollision(position.x + width, position.y + 1) || verifyTileCollision(position.x + width, position.y - 1 + height))
+			if ((this->*verifier)(position->position.x + position->width, position->position.y + 1, what_is_verified) || (this->*verifier)(position->position.x + position->width, position->position.y - 1 + position->height, what_is_verified))
 			{
 				// Verificam cand e deja pe pamant cu aceasta informatie actualizata deja mai sus
 				if (onGround)
 				{
-					solveCollision(TILE_SIZE, TILE_SIZE, false, true, false, false);
-					collisionXcorner2 = true;
+					(this->*solveCollision)(TILE_SIZE, TILE_SIZE, false, true, false, false);
+					if (CollsionFlagsModify)
+						collisionXcorner2 = true;
 					//cout << "coll x2" << endl;
 				}
 			}
 		}
-	// Actualizam pozitia entitatii caci posibil aceasta a fost modificata
 }
+
+void DynamicCollisionComponent::SolveCollisionOverlay(int tileW, int tileH, bool collsioncornerX1, bool collsioncornerX2, bool collsioncornerY1, bool collsioncornerY2)
+{
+
+	// Calculate the overlapping area
+	auto pos = Layers::getLayer(Layers::scenGame, (int)Layers::game_layers::layerGoldenEggs).at(0)->getComponent<PositionComponent>();
+	int overlap_x = std::min(position->position.x + position->width, pos->position.x + pos->width) - std::max(position->position.x, pos->position.x);
+	int overlap_y = std::min(position->position.y + position->height, pos->position.y + pos->height) - std::max(position->position.y, pos->position.y);
+
+	// Decide which side the collision is happening and move rect1 accordingly
+	if (overlap_x > overlap_y) {
+		if (position->position.y < pos->position.y) {
+			position->position.y -= overlap_y;
+		}
+		else {
+			position->position.y += overlap_y;
+		}
+	}
+	else {
+		if (position->position.x < pos->position.x) {
+			position->position.x -= overlap_x;
+		}
+		else {
+			position->position.x += overlap_x;
+		}
+	}
+}
+
 void DynamicCollisionComponent::solveCollision(int tileW, int tileH, bool collsioncornerX1, bool collsioncornerX2, bool collsioncornerY1, bool collsioncornerY2)
 {
 	if (collsioncornerX1)
 	{
-		position.x = ((int)(position.x / tileW) + 1) * tileW;
-		//if (entity->getLayer_Id() == 3)
-		//	cout << "1 " << destRect.x << endl;
-		velocity.x = 0;
+		position->position.x = static_cast<float>(((int)(position->position.x / tileW) + 1) * tileW);
+		position->velocity.x = 0;
 	}
 	if (collsioncornerX2)
 	{
-		position.x = ((int)(position.x / tileW) + 1) * tileW - width;
-		velocity.x = 0;
+		position->position.x = static_cast<float>(((int)(position->position.x / tileW) + 1) * tileW - position->width);
+		position->velocity.x = 0;
 	}
 	if (collsioncornerY1)
 	{
-		position.y = ((int)(position.y / tileH) + 1) * tileH;
-		velocity.y = 0;
+		position->position.y = static_cast<float>(((int)(position->position.y / tileH) + 1) * tileH);
+		position->velocity.y = 0;
 		// Oprim saltul si aplicam gravitata la loc(il facem sa coboare cand daca cu capul de colziune)
-		sign.y = 1;
+		position->sign.y = 1;
 	}
 	if (collsioncornerY2)
 	{
-		position.y = ((int)(position.y / tileH) + 1) * tileH - height;
-		velocity.y = 0;
+		position->position.y = static_cast<float>(((int)(position->position.y / tileH) + 1) * tileH - position->height);
+		position->velocity.y = 0;
 	}
-	//if (entity->getLayer_Id() == 3)
-	//	cout << "2 " << destRect.x << endl;
+}
+bool DynamicCollisionComponent::verifyTileCollision(float x, float y, const vector<Entity*>& what_is_verified)
+{
+	return what_is_verified[(int)(y / TILE_SIZE) * Map::cols + (int)(x / TILE_SIZE)]->hasComponent<CollisionComponent>();
 }
 
-
-bool DynamicCollisionComponent::verifyTileCollision(int x, int y)
+bool DynamicCollisionComponent::verifyEntityCollision(float x, float y, const vector<Entity*>& what_is_verified)
 {
-	auto& tiles = Layers::getLayer(Layers::layerMap);
+	for (auto& verify_entity : what_is_verified)
+	{
+		if (verify_entity->hasComponent<CollisionComponent>())
+		{
+			auto* verify_entityPosition = verify_entity->getComponent<PositionComponent>();
+			if (CollisionUtils::point_in_Rect(x, y, *verify_entityPosition))
+				return true;
+			if (position->velocity.x < 0)
+			{
+				if (CollisionUtils::point_in_Rect(x + position->width, y, *verify_entityPosition))
+					return true;
+			}
+			else if (position->velocity.x > 0)
+				if (CollisionUtils::point_in_Rect(x - position->width, y, *verify_entityPosition))
+					return true;
+		}
+	}
+	return false;
+}
 
-	return tiles[(int)(y / TILE_SIZE) * Map::cols + (int)(x / TILE_SIZE)]->hasComponent<CollisionComponent>();
+bool DynamicCollisionComponent::verifyExplosionCollision(const vector<Entity*>& list_of_entities, float x, float y, void(*solveCollision)(Entity* entity))
+{
+	for (auto& checking_entity : list_of_entities)
+	{
+		if (checking_entity->hasComponent<CollisionComponent>())
+		{
+			auto* checkingPosition = checking_entity->getComponent<PositionComponent>();
+			if(CollisionUtils::point_in_Rect(checkingPosition->position.x, checkingPosition->position.y, Vector2D(x, y), EXPLOSION_W / 2, EXPLOSION_H / 2))
+			{
+				solveCollision(checking_entity);
+				continue;
+			}
+			if (CollisionUtils::point_in_Rect(checkingPosition->position.x + checkingPosition->width, checkingPosition->position.y + checkingPosition->height, Vector2D(x, y), EXPLOSION_W / 2, EXPLOSION_H / 2))
+			{
+				solveCollision(checking_entity);
+				continue;
+			}
+		}
+	}
+	return false;
 }
 
 bool  DynamicCollisionComponent::borderCollision()
 {
-	if (position.x < 0)
+	if (position->position.x < 0)
 	{
-		position.x = 0;
-		velocity.x = 0;
+		position->position.x = 0;
+		position->velocity.x = 0;
 
 		collisionXcorner1 = true;
 	}
-	if (position.y < 0)
+	if (position->position.y < 0)
 	{
-		position.y = 0;
-		sign.y = 1;
+		position->position.y = 0;
+		position->sign.y = 1;
 
 		collisionYcorner1 = true;
 	}
-	if (position.x + width > Map::cols * TILE_SIZE)
+	if (position->position.x + position->width > Map::cols * TILE_SIZE)
 	{
-		position.x = Map::cols * TILE_SIZE - width;
-		velocity.x = 0;
+		position->position.x = static_cast<float>(Map::cols * TILE_SIZE - position->width);
+		position->velocity.x = 0;
 
 		collisionXcorner2 = true;
 	}
-	if (position.y + height > Map::rows * TILE_SIZE)
+	if (position->position.y + position->height > Map::rows * TILE_SIZE)
 	{
-		position.y = Map::rows * TILE_SIZE - height;
+		position->position.y = static_cast<float>(Map::rows * TILE_SIZE - position->height);
 
 		collisionYcorner2 = true;
 	}
 
 	return collisionXcorner1 || collisionXcorner2 || collisionYcorner1 || collisionYcorner2;
+}
+bool DynamicCollisionComponent::verifyExplosionCollisionManager(float x, float y)
+{
+	bool collision = verifyExplosionCollision(Layers::getLayer(Layers::scenGame, (int)Layers::game_layers::layerPlayer), x, y, &EntitiesDeathManager::playerDeath)
+		|| verifyExplosionCollision(Layers::getLayer(Layers::scenGame, (int)Layers::game_layers::layerEnemy), x, y, &EntitiesDeathManager::enemyDeath);
+	return collision;
+}
+
+void DynamicCollisionComponent::playerWin(int tileW, int tileH, bool collsioncornerX1, bool collsioncornerX2, bool collsioncornerY1, bool collsioncornerY2)
+{
+	entity->getComponent<KeyboardControllerComponent>()->able_to_move = false;
+	position->velocity.x = 0;
+	position->sign.x = 0;
+	EntityConstructor::PlayerWon = true;
+}
+void DynamicCollisionComponent::enemyHit(int tileW, int tileH, bool collsioncornerX1, bool collsioncornerX2, bool collsioncornerY1, bool collsioncornerY2)
+{
+	for (auto& player : Layers::getLayer(Layers::scenGame, (int)Layers::game_layers::layerPlayer))
+		EntitiesDeathManager::playerDeath(player);
 }

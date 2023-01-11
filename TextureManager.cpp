@@ -13,9 +13,9 @@ SDL_Texture* TextureManager::LoadTexture(const char* fileName)
 	return texture;
 }
 
-void TextureManager::Draw(SDL_Texture* texture, SDL_Rect src, SDL_Rect dest)
+void TextureManager::Draw(SDL_Texture* texture, SDL_Rect src, SDL_Rect dest, SDL_RendererFlip flip, bool renderOnlyWhatsOnScreen)
 {
 	// Desenam doar ce se vede pe ecran
-	if (dest.x >= - TILE_SIZE && dest.x <= SCR_W + TILE_SIZE && dest.y >= -TILE_SIZE && dest.y <= SCR_H + TILE_SIZE)
-		SDL_RenderCopy(Game::renderer, texture, nullptr, &dest);
+	if (!renderOnlyWhatsOnScreen || dest.x >= - TILE_SIZE * 2 && dest.x <= SCR_W + TILE_SIZE * 2 && dest.y >= -TILE_SIZE * 2 && dest.y <= SCR_H + TILE_SIZE * 2)
+		SDL_RenderCopyEx(Game::renderer, texture, &src, &dest, NULL, NULL, flip);
 }

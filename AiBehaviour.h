@@ -1,13 +1,21 @@
 #pragma once
 #include "ECS.h"
-#include "SpriteComponent.h"
+#include "PositionComponent.h"
 #include "DynamicCollisionComponent.h"
+#include "SpriteComponent.h"
 
-class AiBehaviour : public DynamicCollisionComponent
+class AiBehaviour : public Component
 {
 private:
-	DynamicCollisionComponent *dynamiccol;
+	PositionComponent* position;
+	DynamicCollisionComponent* dynamiccol;
+	SpriteComponent* sprite;
+
+	int movementDirection;
+	void AImovement();
 public:
+	AiBehaviour(int movementDirection);
+
 	void init() override;
 	void update() override;
 };
