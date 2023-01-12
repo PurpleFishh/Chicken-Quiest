@@ -1,10 +1,10 @@
 #include "Game.h"
-#include "Map.h"
-#include "Components.h"
-#include "Textures.h"
-#include "Layering.h"
-#include "ChickenAttack.h"
-#include "ScenesManager.h"
+#include "Map/Map.h"
+#include "ECS/Components.h"
+#include "Utils/TexturesTools/Textures.h"
+#include "Layering/Layering.h"
+#include "Utils/Eggs/ChickenAttack.h"
+#include "ElementsConstructors/ScenesManager.h"
 #include <iostream>
 
 SDL_Renderer* Game::renderer = nullptr;
@@ -83,7 +83,7 @@ void Game::handleEvents()
 		{
 			int x, y;
 			SDL_GetMouseState(&x, &y);
-			mouse_pos.x = (float)(x), mouse_pos.y = (float)(y);
+			mouse_pos.x = (x), mouse_pos.y = (y);
 		}
 		//ECS_Manager.handleEvents();
 		Layers::handlerLayers(ScenesManager::getShowingScen());
