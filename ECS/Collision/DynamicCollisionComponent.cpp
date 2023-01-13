@@ -249,17 +249,19 @@ bool DynamicCollisionComponent::verifyEntityCollision(float x, float y, const ve
 
 bool DynamicCollisionComponent::verifyExplosionCollision(const vector<Entity*>& list_of_entities, float x, float y, void(*solveCollision)(Entity* entity))
 {
+	x -= EXPLOSION_W / 2;
+	y -= EXPLOSION_H / 2;
 	for (auto& checking_entity : list_of_entities)
 	{
 		if (checking_entity->hasComponent<CollisionComponent>())
 		{
 			auto* checkingPosition = checking_entity->getComponent<PositionComponent>();
-			if(CollisionUtils::point_in_Rect(checkingPosition->position.x, checkingPosition->position.y, Vector2D(x, y), EXPLOSION_W / 2, EXPLOSION_H / 2))
+			if (CollisionUtils::point_in_Rect(checkingPosition->position.x, checkingPosition->position.y, Vector2D(x, y), EXPLOSION_W, EXPLOSION_H))
 			{
 				solveCollision(checking_entity);
 				continue;
 			}
-			if (CollisionUtils::point_in_Rect(checkingPosition->position.x + checkingPosition->width, checkingPosition->position.y + checkingPosition->height, Vector2D(x, y), EXPLOSION_W / 2, EXPLOSION_H / 2))
+			if (CollisionUtils::point_in_Rect(checkingPosition->position.x + checkingPosition->width, checkingPosition->position.y + checkingPosition->height, Vector2D(x, y), EXPLOSION_W, EXPLOSION_H))
 			{
 				solveCollision(checking_entity);
 				continue;
@@ -303,9 +305,9 @@ bool  DynamicCollisionComponent::borderCollision()
 }
 bool DynamicCollisionComponent::verifyExplosionCollisionManager(float x, float y)
 {
-	bool collision = verifyExplosionCollision(Layers::getLayer(Layers::scenGame, (int)Layers::game_layers::layerPlayer), x, y, &EntitiesDeathManager::playerDeath)
-		|| verifyExplosionCollision(Layers::getLayer(Layers::scenGame, (int)Layers::game_layers::layerEnemy), x, y, &EntitiesDeathManager::enemyDeath);
-	return collision;
+	bool playercoll = verifyExplosionCollision(Layers::getLayer(Layers::scenGame, (int)Layers::game_layers::layerPlayer), x, y, &EntitiesDeathManager::playerDeath);
+	bool entitycoll = verifyExplosionCollision(Layers::getLayer(Layers::scenGame, (int)Layers::game_layers::layerEnemy), x, y, &EntitiesDeathManager::enemyDeath);
+	return playercoll || entitycoll;
 }
 
 void DynamicCollisionComponent::playerWin(int tileW, int tileH, bool collsioncornerX1, bool collsioncornerX2, bool collsioncornerY1, bool collsioncornerY2)

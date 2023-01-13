@@ -84,12 +84,12 @@ void KeyboardControllerComponent::handleEvents()
 					sprite->playAnimation("Walk");
 				right = true;
 			}
-			if (Game::event.key.keysym.sym == SDLK_e)
+			if (DEBUG == 1 && Game::event.key.keysym.sym == SDLK_e)
 			{
 				EntityConstructor::spawnGoldenEgg(EntityConstructor::golden_egg_spawn_position);
 			}
 
-			if (Game::event.key.keysym.sym == SDLK_f)
+			if (Game::event.key.keysym.sym == SDLK_SPACE)
 			{
 				//eeeeeggg
 				if (!ChickenAttack::eggSpawned())

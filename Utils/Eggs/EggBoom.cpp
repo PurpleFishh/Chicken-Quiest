@@ -47,7 +47,7 @@ void EggBoom::update()
 	}
 	// sa nu facem kill-urile chiar cand apare animatia..
 	if (wait_time == -1)
-		if (fps_until_sec == 17)
+		if (fps_until_sec == 12)
 		{
 			PositionComponent* position = entity->getComponent<PositionComponent>();
 			dynamic_col->verifyExplosionCollisionManager(position->position.x, position->position.y);

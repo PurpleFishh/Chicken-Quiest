@@ -1,5 +1,7 @@
 #pragma once
 
+#define DEBUG 1
+
 // Game details
 #define SCR_W 1920
 #define SCR_H 1080

@@ -15,15 +15,21 @@ std::string CollisionComponent::getType()
 
 void CollisionComponent::init()
 {
-	try {
-		sprite = entity->getComponent<SpriteComponent>();
-		if (!entity->hasComponent<SpriteComponent>())		throw ErrorHandler(typeid(CollisionComponent).name(), typeid(SpriteComponent).name());
+	if (DEBUG == 1)
+	{
+		try {
+			sprite = entity->getComponent<SpriteComponent>();
+			if (!entity->hasComponent<SpriteComponent>())		throw ErrorHandler(typeid(CollisionComponent).name(), typeid(SpriteComponent).name());
+		}
+		catch (ErrorHandler e) { sprite = &entity->addCompoent<SpriteComponent>(); }
+		catch (std::exception& ex) { cout << ex.what() << endl; }
 	}
-	catch (ErrorHandler e) { sprite = &entity->addCompoent<SpriteComponent>(); }
-	catch (std::exception& ex) { cout << ex.what() << endl; }
 }
 void CollisionComponent::draw()
 {
-	SDL_SetRenderDrawColor(Game::renderer, 255, 0, 0, 255);
-	SDL_RenderDrawRect(Game::renderer, &sprite->destRect);
+	if(DEBUG == 1)
+	{
+		SDL_SetRenderDrawColor(Game::renderer, 255, 0, 0, 255);
+		SDL_RenderDrawRect(Game::renderer, &sprite->destRect);
+	}
 }
