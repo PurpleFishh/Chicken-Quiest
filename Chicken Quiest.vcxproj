@@ -108,13 +108,13 @@
       <SDLCheck>true</SDLCheck>
       <PreprocessorDefinitions>_DEBUG;_CONSOLE;%(PreprocessorDefinitions)</PreprocessorDefinitions>
       <ConformanceMode>true</ConformanceMode>
-      <AdditionalIncludeDirectories>..\..\SDL2 image\include;..\..\SDL2\include;..\..\SDL2_ttf\include</AdditionalIncludeDirectories>
+      <AdditionalIncludeDirectories>D:\Chicken Quiest\SDL2 image\include;D:\Chicken Quiest\SDL2\include;D:\Chicken Quiest\SDL2_ttf\include</AdditionalIncludeDirectories>
       <BrowseInformation>true</BrowseInformation>
     </ClCompile>
     <Link>
       <SubSystem>Console</SubSystem>
       <GenerateDebugInformation>true</GenerateDebugInformation>
-      <AdditionalLibraryDirectories>..\..\SDL2 image\lib\x64;..\..\SDL2\lib\x64;..\..\SDL2_ttf\lib\x64;%(AdditionalLibraryDirectories)</AdditionalLibraryDirectories>
+      <AdditionalLibraryDirectories>D:\Chicken Quiest\SDL2\lib\x64;D:\Chicken Quiest\SDL2 image\lib\x64;D:\Chicken Quiest\SDL2_ttf\lib\x64;%(AdditionalLibraryDirectories)</AdditionalLibraryDirectories>
       <AdditionalDependencies>SDL2.lib;SDL2main.lib;SDL2_ttf.lib;SDL2_image.lib;%(AdditionalDependencies)</AdditionalDependencies>
     </Link>
     <Bscmake>
@@ -138,65 +138,65 @@
     </Link>
   </ItemDefinitionGroup>
   <ItemGroup>
-    <ClCompile Include="AiBehaviour.cpp" />
-    <ClCompile Include="Animation.cpp" />
-    <ClCompile Include="CameraTarget.cpp" />
-    <ClCompile Include="CollisionUtils.cpp" />
-    <ClCompile Include="CollisionComponent.cpp" />
-    <ClCompile Include="DynamicCollisionComponent.cpp" />
-    <ClCompile Include="DynamicCollisionComponent2.cpp" />
-    <ClCompile Include="ECS.cpp" />
-    <ClCompile Include="EggBoom.cpp" />
-    <ClCompile Include="EntitiesDeathManager.cpp" />
-    <ClCompile Include="EntityConstructor.cpp" />
+    <ClCompile Include="ECS\Camera\CameraTarget.cpp" />
+    <ClCompile Include="ECS\Collision\CollisionComponent.cpp" />
+    <ClCompile Include="ECS\Collision\DynamicCollisionComponent.cpp" />
+    <ClCompile Include="ECS\Collision\DynamicCollisionComponent2.cpp" />
+    <ClCompile Include="ECS\Collision\MouseCollision.cpp" />
+    <ClCompile Include="ECS\ECS.cpp" />
+    <ClCompile Include="ECS\Map\TileComponent.cpp" />
+    <ClCompile Include="ECS\Movement\AiBehaviour.cpp" />
+    <ClCompile Include="ECS\Movement\KeyboardControllerComponent.cpp" />
+    <ClCompile Include="ECS\Movement\PositionComponent.cpp" />
+    <ClCompile Include="ECS\Visual\InfoBar.cpp" />
+    <ClCompile Include="ECS\Visual\SpriteComponent.cpp" />
+    <ClCompile Include="ECS\Visual\TextComponent.cpp" />
+    <ClCompile Include="ElementsConstructors\EntityConstructor.cpp" />
+    <ClCompile Include="ElementsConstructors\MenuConstructor.cpp" />
+    <ClCompile Include="ElementsConstructors\ScenesManager.cpp" />
     <ClCompile Include="Game.cpp" />
-    <ClCompile Include="InfoBar.cpp" />
-    <ClCompile Include="KeyboardControllerComponent.cpp" />
-    <ClCompile Include="Layering.cpp" />
+    <ClCompile Include="Layering\Layering.cpp" />
     <ClCompile Include="Main.cpp" />
-    <ClCompile Include="Map.cpp" />
-    <ClCompile Include="MenuConstructor.cpp" />
-    <ClCompile Include="MouseCollision.cpp" />
-    <ClCompile Include="PositionComponent.cpp" />
-    <ClCompile Include="ScenesManager.cpp" />
-    <ClCompile Include="SpriteComponent.cpp" />
-    <ClCompile Include="TextComponent.cpp" />
-    <ClCompile Include="TextureManager.cpp" />
-    <ClCompile Include="Textures.cpp" />
-    <ClCompile Include="TileComponent.cpp" />
-    <ClCompile Include="Vector2D.cpp" />
+    <ClCompile Include="Managers\DeathManager\EntitiesDeathManager.cpp" />
+    <ClCompile Include="Map\Map.cpp" />
+    <ClCompile Include="Utils\CollisionUtils\CollisionUtils.cpp" />
+    <ClCompile Include="Utils\Eggs\EggBoom.cpp" />
+    <ClCompile Include="Utils\TexturesTools\Animation.cpp" />
+    <ClCompile Include="Utils\TexturesTools\TextureManager.cpp" />
+    <ClCompile Include="Utils\TexturesTools\Textures.cpp" />
+    <ClCompile Include="Utils\Vector2D.cpp" />
   </ItemGroup>
   <ItemGroup>
-    <ClInclude Include="AiBehaviour.h" />
-    <ClInclude Include="Animation.h" />
-    <ClInclude Include="CameraTarget.h" />
-    <ClInclude Include="ChickenAttack.h" />
-    <ClInclude Include="CollisionUtils.h" />
-    <ClInclude Include="CollisionComponent.h" />
-    <ClInclude Include="Components.h" />
-    <ClInclude Include="DynamicCollisionComponent.h" />
-    <ClInclude Include="DynamicCollisionComponent2.h" />
-    <ClInclude Include="ECS.h" />
-    <ClInclude Include="EggBoom.h" />
-    <ClInclude Include="EntitiesDeathManager.h" />
-    <ClInclude Include="EntityConstructor.h" />
-    <ClInclude Include="ErrorHandler.h" />
+    <ClInclude Include="ECS\Camera\CameraTarget.h" />
+    <ClInclude Include="ECS\Collision\CollisionComponent.h" />
+    <ClInclude Include="ECS\Collision\DynamicCollisionComponent.h" />
+    <ClInclude Include="ECS\Collision\DynamicCollisionComponent2.h" />
+    <ClInclude Include="ECS\Collision\MouseCollision.h" />
+    <ClInclude Include="ECS\Components.h" />
+    <ClInclude Include="ECS\ECS.h" />
+    <ClInclude Include="ECS\Map\TileComponent.h" />
+    <ClInclude Include="ECS\Movement\AiBehaviour.h" />
+    <ClInclude Include="ECS\Movement\KeyboardControllerComponent.h" />
+    <ClInclude Include="ECS\Movement\PositionComponent.h" />
+    <ClInclude Include="ECS\Visual\InfoBar.h" />
+    <ClInclude Include="ECS\Visual\SpriteComponent.h" />
+    <ClInclude Include="ECS\Visual\TextComponent.h" />
+    <ClInclude Include="ElementsConstructors\EntityConstructor.h" />
+    <ClInclude Include="ElementsConstructors\MenuConstructor.h" />
+    <ClInclude Include="ElementsConstructors\ScenesManager.h" />
     <ClInclude Include="Game.h" />
-    <ClInclude Include="InfoBar.h" />
-    <ClInclude Include="KeyboardControllerComponent.h" />
-    <ClInclude Include="Layering.h" />
-    <ClInclude Include="Map.h" />
-    <ClInclude Include="MenuConstructor.h" />
-    <ClInclude Include="MouseCollision.h" />
-    <ClInclude Include="PositionComponent.h" />
-    <ClInclude Include="ScenesManager.h" />
+    <ClInclude Include="Layering\Layering.h" />
+    <ClInclude Include="Managers\DeathManager\EntitiesDeathManager.h" />
+    <ClInclude Include="Managers\ErrorHandler\ErrorHandler.h" />
+    <ClInclude Include="Map\Map.h" />
     <ClInclude Include="settings.h" />
-    <ClInclude Include="SpriteComponent.h" />
-    <ClInclude Include="TextComponent.h" />
-    <ClInclude Include="TextureManager.h" />
-    <ClInclude Include="Textures.h" />
-    <ClInclude Include="TileComponent.h" />
-    <ClInclude Include="Vector2D.h" />
+    <ClInclude Include="Utils\CollisionUtils\CollisionUtils.h" />
+    <ClInclude Include="Utils\Eggs\ChickenAttack.h" />
+    <ClInclude Include="Utils\Eggs\EggBoom.h" />
+    <ClInclude Include="Utils\TexturesTools\Animation.h" />
+    <ClInclude Include="Utils\TexturesTools\TextureManager.h" />
+    <ClInclude Include="Utils\TexturesTools\Textures.h" />
+    <ClInclude Include="Utils\Vector2D.h" />
   </ItemGroup>
   <ItemGroup>
     <Image Include="assets\chicken.png" />

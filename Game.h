@@ -2,8 +2,8 @@
 
 #include "SDL.h"
 #include <SDL_ttf.h>
-#include "ECS.h"
-#include "Vector2D.h"
+#include "ECS/ECS.h"
+#include "Utils/Vector2D.h"
 
 class Game
 {
