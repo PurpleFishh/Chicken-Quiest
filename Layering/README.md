@@ -1,0 +1,14 @@
+# Layering
+- this class handles the **layering system**
+- it is working with a ***map of ints*** _(scen id)_ and a ***array*** _(the index represents the layer id)_ of an ***vector of Entities*** _(the entites that are in that layer)_
+- it contains an ***enum for scens*** and an ***enum of layers*** each every scen
+- it has ***functions*** to easy the work with this system
+  - ***addEntity*** _(scen id, Entity, layer id)_ - adds an entity to the specified scen and layer
+  - ***removeEntity*** _(scen id, Entity)_ - removes that entity form the scen
+  - ***clearLayer*** _(scen id, layer id)_ - distroy every entity form the layer and clears it
+  - ***clearLayer*** _(vector of Entities(an layer))_ - clears the layer that was given as parameter
+  - ***clearScen*** _(scen id)_ - clears an scen and every layer from it
+  - ***renderLayers / handlerLayers / updateLayers*** - dose the ECS System tasks for an specific scen
+  - ***getEntityfromLayer*** _(scene id, layer id, Entity id in the layer)_ - return the entity
+  - ***getLayer*** _(scen id, layer id)_ - returns the layer
+  - ***getScen*** _(scne id)_ - returns the scen  
