@@ -1,4 +1,4 @@
-#ECS
+# ECS
 - Here are all the **Components** that the game is using
     - in **Camera** is the ***Camera Target*** component
     - in **Collision** are the ***Collision components***
