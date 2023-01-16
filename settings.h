@@ -52,8 +52,9 @@
 #define LOGO_W 945
 #define LOGO_H 561
 
-#define lvlMapFormat "lvl_map_"
+#define lvlMapFormat "GameMaps/lvl_map_"
 #define lvlMapType ".data"
+#define saveGameInfoFile "save.data"
 
 const float delta_time = 1000.0f / fps;
 

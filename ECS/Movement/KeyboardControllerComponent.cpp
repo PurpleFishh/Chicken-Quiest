@@ -3,6 +3,7 @@
 #include "../../ElementsConstructors/EntityConstructor.h"
 #include "../../Utils/Eggs/ChickenAttack.h"
 #include "../../Managers/ErrorHandler/ErrorHandler.h"
+#include "../../Utils/InfoStorage/GameInfoStorage.h"
 
 void KeyboardControllerComponent::init()
 {
@@ -34,7 +35,7 @@ void KeyboardControllerComponent::handleEvents()
 		{
 			if (sprite->playingThisAnimation("Fly"))
 				sprite->playAnimation("Idle");
-			if(EntityConstructor::PlayerWon)
+			if(GameInfoStorage::PlayerWon)
 				if (!sprite->playingThisAnimation("Eat"))
 					sprite->playAnimation("Eat", EntityConstructor::AnimationAfter_playerWin);
 		}

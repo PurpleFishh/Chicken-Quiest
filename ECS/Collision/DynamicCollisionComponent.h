@@ -13,7 +13,7 @@ private:
 
 	void solveCollision(int tileW, int tileH, bool collsioncornerX1, bool collsioncornerX2, bool collsioncornerY1, bool collsioncornerY2);
 	void enemyHit(int tileW, int tileH, bool collsioncornerX1, bool collsioncornerX2, bool collsioncornerY1, bool collsioncornerY2);
-	bool verifyExplosionCollision(const vector<Entity*>& list_of_entities, float x, float y, void(* solveCollision)(Entity* entity));
+	int verifyExplosionCollision(const vector<Entity*>& list_of_entities, float x, float y, void(* solveCollision)(Entity* entity));
 	void playerWin(int tileW, int tileH, bool collsioncornerX1, bool collsioncornerX2, bool collsioncornerY1, bool collsioncornerY2);
 
 	void SolveCollisionOverlay(int tileW, int tileH, bool collsioncornerX1, bool collsioncornerX2, bool collsioncornerY1, bool collsioncornerY2);

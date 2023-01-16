@@ -8,6 +8,7 @@
 #include "../../ECS/Visual/InfoBar.h"
 #include "../../Managers/ErrorHandler/ErrorHandler.h"
 #include "../../Map/Map.h"
+#include "../../Utils/InfoStorage/GameInfoStorage.h"
 
 
 EggBoom::EggBoom(int wait_time)
@@ -25,8 +26,8 @@ void EggBoom::init()
 	catch (std::exception& ex) { cout << ex.what() << endl; }
 	
 	wait_time = wait_time + Map::difficulty;
-	//wait_time = wait_time - Map::difficulty < 0 ? 0 : wait_time - Map::difficulty;
-	Layers::getEntityfromLayer(Layers::scenGame, (int)Layers::game_layers::layerBar, 0)->getComponent<InfoBar>()->setTimeUntilEgg(wait_time);
+	for (auto& bars : Layers::getLayer(Layers::scenGame, (int)Layers::game_layers::layerBar))
+		bars->getComponent<InfoBar>()->setTimeUntilEgg(wait_time);
 }
 
 void EggBoom::update()
@@ -37,12 +38,16 @@ void EggBoom::update()
 		wait_time--;
 		fps_until_sec = 0;
 
-		Layers::getEntityfromLayer(Layers::scenGame, (int)Layers::game_layers::layerBar, 0)->getComponent<InfoBar>()->setTimeUntilEgg(wait_time);
+		for (auto& bars : Layers::getLayer(Layers::scenGame, (int)Layers::game_layers::layerBar))
+			bars->getComponent<InfoBar>()->setTimeUntilEgg(wait_time);
 	}
 	if (wait_time == 0)
 	{
 		EntityConstructor::spawnExplosion(entity->getComponent<PositionComponent>()->position);
-		Layers::getEntityfromLayer(Layers::scenGame, (int)Layers::game_layers::layerBar, 0)->getComponent<InfoBar>()->setTimeUntilEgg(wait_time);
+		
+		for (auto& bars : Layers::getLayer(Layers::scenGame, (int)Layers::game_layers::layerBar))
+			bars->getComponent<InfoBar>()->setTimeUntilEgg(wait_time);
+		
 		fps_until_sec = 0, wait_time = -1;
 	}
 	// sa nu facem kill-urile chiar cand apare animatia..
@@ -50,7 +55,15 @@ void EggBoom::update()
 		if (fps_until_sec == 12)
 		{
 			PositionComponent* position = entity->getComponent<PositionComponent>();
-			dynamic_col->verifyExplosionCollisionManager(position->position.x, position->position.y);
+			
+			bool bad_placed_egg = dynamic_col->verifyExplosionCollisionManager(position->position.x, position->position.y);
+			if (bad_placed_egg)
+			{
+				GameInfoStorage::ScoreSub(3);
+				for (auto& bars : Layers::getLayer(Layers::scenGame, (int)Layers::game_layers::layerBar))
+					bars->getComponent<InfoBar>()->scoreUpdate();
+			}
+			
 			entity->destroy();
 			ChickenAttack::setEgg(nullptr);
 		}

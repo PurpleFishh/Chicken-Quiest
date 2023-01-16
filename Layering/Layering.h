@@ -48,7 +48,8 @@ public:
 	enum class levels_menu_layers
 	{
 		layerBackground,
-		layerButtons
+		layerButtons,
+		layerBar
 	};
 	enum class pause_menu_layers
 	{

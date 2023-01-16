@@ -5,6 +5,7 @@
 #include "Layering/Layering.h"
 #include "Utils/Eggs/ChickenAttack.h"
 #include "ElementsConstructors/ScenesManager.h"
+#include "Utils/InfoStorage/GameInfoStorage.h"
 #include <iostream>
 
 SDL_Renderer* Game::renderer = nullptr;
@@ -71,6 +72,7 @@ void Game::init(const char* title, int xpos, int ypos, int width, int height, bo
 	}
 
 	keys_state = SDL_GetKeyboardState(0);
+	GameInfoStorage::saveInformations();
 	ScenesManager::showMain_Menu();
 }
 

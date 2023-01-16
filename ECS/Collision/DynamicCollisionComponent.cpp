@@ -7,6 +7,7 @@
 #include "../../ElementsConstructors/EntityConstructor.h"
 #include "../../ECS/Movement/KeyboardControllerComponent.h"
 #include "../../Utils/CollisionUtils/CollisionUtils.h"
+#include "../../Utils/InfoStorage/GameInfoStorage.h"
 #include "../../Managers/ErrorHandler/ErrorHandler.h"
 
 
@@ -247,8 +248,9 @@ bool DynamicCollisionComponent::verifyEntityCollision(float x, float y, const ve
 	return false;
 }
 
-bool DynamicCollisionComponent::verifyExplosionCollision(const vector<Entity*>& list_of_entities, float x, float y, void(*solveCollision)(Entity* entity))
+int DynamicCollisionComponent::verifyExplosionCollision(const vector<Entity*>& list_of_entities, float x, float y, void(*solveCollision)(Entity* entity))
 {
+	int deaths = 0;
 	x -= EXPLOSION_W / 2;
 	y -= EXPLOSION_H / 2;
 	for (auto& checking_entity : list_of_entities)
@@ -259,16 +261,18 @@ bool DynamicCollisionComponent::verifyExplosionCollision(const vector<Entity*>& 
 			if (CollisionUtils::point_in_Rect(checkingPosition->position.x, checkingPosition->position.y, Vector2D(x, y), EXPLOSION_W, EXPLOSION_H))
 			{
 				solveCollision(checking_entity);
+				deaths++;
 				continue;
 			}
 			if (CollisionUtils::point_in_Rect(checkingPosition->position.x + checkingPosition->width, checkingPosition->position.y + checkingPosition->height, Vector2D(x, y), EXPLOSION_W, EXPLOSION_H))
 			{
 				solveCollision(checking_entity);
+				deaths++;
 				continue;
 			}
 		}
 	}
-	return false;
+	return deaths;
 }
 
 bool  DynamicCollisionComponent::borderCollision()
@@ -305,9 +309,9 @@ bool  DynamicCollisionComponent::borderCollision()
 }
 bool DynamicCollisionComponent::verifyExplosionCollisionManager(float x, float y)
 {
-	bool playercoll = verifyExplosionCollision(Layers::getLayer(Layers::scenGame, (int)Layers::game_layers::layerPlayer), x, y, &EntitiesDeathManager::playerDeath);
-	bool entitycoll = verifyExplosionCollision(Layers::getLayer(Layers::scenGame, (int)Layers::game_layers::layerEnemy), x, y, &EntitiesDeathManager::enemyDeath);
-	return playercoll || entitycoll;
+	int playercoll = verifyExplosionCollision(Layers::getLayer(Layers::scenGame, (int)Layers::game_layers::layerPlayer), x, y, &EntitiesDeathManager::playerDeath);
+	int entitycoll = verifyExplosionCollision(Layers::getLayer(Layers::scenGame, (int)Layers::game_layers::layerEnemy), x, y, &EntitiesDeathManager::enemyDeath);
+	return playercoll == 0 && entitycoll == 0;
 }
 
 void DynamicCollisionComponent::playerWin(int tileW, int tileH, bool collsioncornerX1, bool collsioncornerX2, bool collsioncornerY1, bool collsioncornerY2)
@@ -315,7 +319,7 @@ void DynamicCollisionComponent::playerWin(int tileW, int tileH, bool collsioncor
 	entity->getComponent<KeyboardControllerComponent>()->able_to_move = false;
 	position->velocity.x = 0;
 	position->sign.x = 0;
-	EntityConstructor::PlayerWon = true;
+	GameInfoStorage::PlayerWon = true;
 }
 void DynamicCollisionComponent::enemyHit(int tileW, int tileH, bool collsioncornerX1, bool collsioncornerX2, bool collsioncornerY1, bool collsioncornerY2)
 {

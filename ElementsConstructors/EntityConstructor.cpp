@@ -4,12 +4,11 @@
 #include "../Layering/Layering.h"
 #include "../ElementsConstructors/ScenesManager.h"
 #include "../Map/Map.h"
+#include "../Utils/InfoStorage/GameInfoStorage.h"
 
 extern System ECS_Manager;
 Vector2D EntityConstructor::player_spawn_position(0, 0);
 Vector2D EntityConstructor::golden_egg_spawn_position(0, 0);
-bool EntityConstructor::PlayerWon = false;
-short EntityConstructor::PlayerLives = 0;
 Entity& EntityConstructor::emptyTile = ECS_Manager.addEntity();
 
 Entity& EntityConstructor::spawnPlayer(const Vector2D& spawn_position)
@@ -22,7 +21,7 @@ Entity& EntityConstructor::spawnPlayer(const Vector2D& spawn_position)
 	player.addCompoent<CollisionComponent>("player");
 	player.addCompoent<CameraTarget>();
 	Layers::add(Layers::scenGame, &player, (int)Layers::game_layers::layerPlayer);
-	PlayerLives = 5 - Map::difficulty < 1 ? 1 : 5 - Map::difficulty;
+	GameInfoStorage::PlayerLives = 5 - Map::difficulty < 1 ? 1 : 5 - Map::difficulty;
 
 	return player;
 }
@@ -90,12 +89,12 @@ Entity& EntityConstructor::spawnText(const Vector2D& spawn_position, std::string
 
 	return textEntity;
 }
-Entity& EntityConstructor::spawnInfoBar(const Vector2D& spawn_position, SDL_Color color)
+Entity& EntityConstructor::spawnInfoBar(int scen, int layer, const Vector2D& spawn_position, SDL_Color color, const std::string& facilities)
 {
 	auto& textEntity = ECS_Manager.addEntity();
 	textEntity.addCompoent<PositionComponent>(spawn_position.x, spawn_position.y);
-	textEntity.addCompoent<InfoBar>(" ", color);
-	Layers::add(Layers::scenGame, &textEntity, (int)Layers::game_layers::layerBar);
+	textEntity.addCompoent<InfoBar>(" ", color, facilities);
+	Layers::add(scen, &textEntity, layer);
 
 	return textEntity;
 }
@@ -106,10 +105,8 @@ void EntityConstructor::AnimationAfter_destroyEntity(Entity* entity)
 }
 void EntityConstructor::AnimationAfter_playerWin(Entity* entity)
 {
-	/*cout << "Win!" << endl;
-	EntitiesDeathManager::playerDeath(entity);
-	entity->getComponent<SpriteComponent>()->playAnimation("Idle");
-	entity->getComponent<KeyboardControllerComponent>()->able_to_move = true;*/
+	GameInfoStorage::saveInformations();
 	ScenesManager::showWin_Screen();
-	PlayerWon = false;
+	GameInfoStorage::PlayerWon = false;
 }
+

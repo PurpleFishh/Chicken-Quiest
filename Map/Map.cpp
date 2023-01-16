@@ -5,6 +5,7 @@
 #include "../ECS/Map/TileComponent.h"
 #include "../Layering/Layering.h"
 #include "../ECS/Collision/CollisionComponent.h"
+#include "../Utils/InfoStorage/GameInfoStorage.h"
 #include <fstream>
 
 using namespace std;
@@ -17,6 +18,10 @@ void Map::LoadMap(std::string mapPath)
 {
 	loaded_mapPath = mapPath;
 	ifstream mapfile(mapPath);
+
+	GameInfoStorage::ScoreReset();
+	GameInfoStorage::EnemiesAlive = 0;
+	
 	mapfile >> difficulty;
 	// Setam viteza animatiei dupa noua viteza de mers in functie de dificultate
 	int newSpeed = (300 - 45 * (difficulty - 1)) < 80 ? 80 : 300 - 45 * (difficulty - 1);
@@ -81,7 +86,10 @@ void Map::LoadMap(std::string mapPath)
 			if (chr == 'p')
 				EntityConstructor::player_spawn_position = Vector2D(float(col * TILE_SIZE), float(row * TILE_SIZE));
 			if (chr == 'e')
+			{
 				EntityConstructor::spawnEnemy(Vector2D(float(col * TILE_SIZE), float(row * TILE_SIZE)));
+				GameInfoStorage::EnemiesAlive++;
+			}
 			if (chr == 'g')
 				EntityConstructor::golden_egg_spawn_position = Vector2D(float(col * TILE_SIZE), float(row * TILE_SIZE));
 			mapfile.get();

@@ -27,7 +27,7 @@ void ScenesManager::destroyShowingScen()
 void ScenesManager::startLevel(std::string mapPath)
 {
 	while (!Layers::ScenesStack.empty())
-		Layers::ScenesStack.pop();
+		destroyShowingScen();
 	Layers::ScenesStack.push(Layers::scenGame);
 	if (!scene_loaded[Layers::scenGame])
 	{
@@ -35,7 +35,8 @@ void ScenesManager::startLevel(std::string mapPath)
 		EntityConstructor::spawnBackground(Layers::scenGame, (int)Layers::game_layers::layerBackground, Vector2D(0, 0), Textures::textures.at(12),
 			(Map::cols * TILE_SIZE), (Map::rows * TILE_SIZE), 1280, 768);
 		EntityConstructor::spawnPlayer(EntityConstructor::player_spawn_position);
-		EntityConstructor::spawnInfoBar(Vector2D(10, 10), SDL_Color{ 255, 255, 255 });
+		EntityConstructor::spawnInfoBar(Layers::scenGame, (int)Layers::game_layers::layerBar, Vector2D(10, 10), SDL_Color{ 255, 255, 255 }, "lives time");
+		EntityConstructor::spawnInfoBar(Layers::scenGame, (int)Layers::game_layers::layerBar, Vector2D(10, 50), SDL_Color{ 255, 255, 255 }, "enemies score");
 
 		scene_loaded[Layers::scenGame] = true;
 	}
@@ -69,6 +70,7 @@ void ScenesManager::showLevels_Menu()
 			"back", 14, BUTTON_BACK_W, BUTTON_BACK_H, BUTTON_BACK_SCR_W, BUTTON_BACK_SCR_H);
 		EntityConstructor::spawnBackground(Layers::scenLevelsMenu, (int)Layers::levels_menu_layers::layerBackground, Vector2D(0, 0), Textures::textures_menu.at(20),
 			SCR_W, SCR_H, 1280, 768);
+		EntityConstructor::spawnInfoBar(Layers::scenLevelsMenu, (int)Layers::levels_menu_layers::layerBar, Vector2D(100, SCR_W, 100.f), SDL_Color{ 255, 255, 255 }, "best");
 		scene_loaded[Layers::scenLevelsMenu] = true;
 	}
 }
