@@ -8,7 +8,7 @@ The special abillity of that chicken is that her eggs explodes
 The controlles are simple: W/A/S/D - movement, F - egg
 
 ## Code documentation
-- The game is using an **ECS_(Entity Component System)_**
+- The game is using an **ECS _(Entity Component System)_**
   - Basically this is how the engine works:
       - you add **Entitie** to the game
       - you can add **Components** to that **Entity**
