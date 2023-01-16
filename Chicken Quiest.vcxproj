@@ -161,6 +161,7 @@
     <ClCompile Include="Map\Map.cpp" />
     <ClCompile Include="Utils\CollisionUtils\CollisionUtils.cpp" />
     <ClCompile Include="Utils\Eggs\EggBoom.cpp" />
+    <ClCompile Include="Utils\InfoStorage\GameInfoStorage.cpp" />
     <ClCompile Include="Utils\TexturesTools\Animation.cpp" />
     <ClCompile Include="Utils\TexturesTools\TextureManager.cpp" />
     <ClCompile Include="Utils\TexturesTools\Textures.cpp" />
@@ -193,6 +194,7 @@
     <ClInclude Include="Utils\CollisionUtils\CollisionUtils.h" />
     <ClInclude Include="Utils\Eggs\ChickenAttack.h" />
     <ClInclude Include="Utils\Eggs\EggBoom.h" />
+    <ClInclude Include="Utils\InfoStorage\GameInfoStorage.h" />
     <ClInclude Include="Utils\TexturesTools\Animation.h" />
     <ClInclude Include="Utils\TexturesTools\TextureManager.h" />
     <ClInclude Include="Utils\TexturesTools\Textures.h" />
@@ -204,11 +206,11 @@
     <Image Include="assets\grass.png" />
   </ItemGroup>
   <ItemGroup>
-    <None Include="lvl_map_1.data" />
-    <None Include="lvl_map_2.data" />
-    <None Include="lvl_map_3.data" />
-    <None Include="lvl_map_4.data" />
-    <None Include="lvl_map_5.data" />
+    <None Include="GameMaps\lvl_map_1.data" />
+    <None Include="GameMaps\lvl_map_2.data" />
+    <None Include="GameMaps\lvl_map_3.data" />
+    <None Include="GameMaps\lvl_map_4.data" />
+    <None Include="GameMaps\lvl_map_5.data" />
   </ItemGroup>
   <Import Project="$(VCTargetsPath)\Microsoft.Cpp.targets" />
   <ImportGroup Label="ExtensionTargets">
