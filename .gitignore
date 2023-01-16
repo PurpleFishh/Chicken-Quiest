@@ -361,3 +361,14 @@ MigrationBackup/
 
 # Fody - auto-generated XML schema
 FodyWeavers.xsd
+
+# SDL
+SDL2.dll
+SDL2_image.dll
+SDL2_ttf.dll
+SDL_ttf.h
+libpng16-16.dll
+save.data
+zlib1.dll
+Chicken Quiest.vcxproj
+Chicken Quiest.vcxproj.filters
