@@ -3,9 +3,6 @@
 #include "../Movement/PositionComponent.h"
 #include "SDL_image.h"
 
-/**
-* @brief Tests for colloision(igonore)
-*/
 class DynamicCollisionComponent2 : public Component
 {
 private:
