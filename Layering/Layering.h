@@ -1,7 +1,7 @@
 #pragma once
 
-#include "settings.h"
-#include "ECS.h"
+#include "../settings.h"
+#include "../ECS/ECS.h"
 
 #include <array>
 #include <vector>
@@ -54,14 +54,9 @@ public:
 	/// Levels selection menu layers rendering order
 	enum class levels_menu_layers
 	{
-<<<<<<< Updated upstream:Layering.h
-		layerBackground,
-		layerButtons
-=======
 		layerBackground,	///< Background layer
 		layerButtons,		///< Buttons layer
 		layerBar			///< Infobar layer
->>>>>>> Stashed changes:Layering/Layering.h
 	};
 	/// Pause menu layers rendering order
 	enum class pause_menu_layers

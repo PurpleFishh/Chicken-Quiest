@@ -92,9 +92,6 @@ public:
 	*/
 	Vector2D& div(const float& val);
 
-<<<<<<< Updated upstream:Vector2D.h
-	float length();
-=======
 	/**
 		* @brief The lenght of the vector
 	*/
@@ -102,7 +99,6 @@ public:
 	/**
 		* @brief Normalized vector
 	*/
->>>>>>> Stashed changes:Utils/Vector2D.h
 	Vector2D& normalize();
 
 	/**

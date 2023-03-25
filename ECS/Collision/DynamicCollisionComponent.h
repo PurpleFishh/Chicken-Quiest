@@ -1,6 +1,6 @@
 #pragma once
-#include "ECS.h"
-#include "PositionComponent.h"
+#include "../../ECS/ECS.h"
+#include "../Movement/PositionComponent.h"
 #include "SDL_image.h"
 
 /**
@@ -49,9 +49,6 @@ private:
 	* @param collsioncornerY2 True if the entity has collision on the bottom side
 	*/
 	void enemyHit(int tileW, int tileH, bool collsioncornerX1, bool collsioncornerX2, bool collsioncornerY1, bool collsioncornerY2);
-<<<<<<< Updated upstream:DynamicCollisionComponent.h
-	bool verifyExplosionCollision(const vector<Entity*>& list_of_entities, float x, float y, void(* solveCollision)(Entity* entity));
-=======
 	/**
 	* @brief Verify if the entity collides with the explosion
 	* @param list_of_entities List of entities that will be verified
@@ -69,7 +66,6 @@ private:
 	* @param collsioncornerY1 True if the entity has collision on the top side
 	* @param collsioncornerY2 True if the entity has collision on the bottom side
 	*/
->>>>>>> Stashed changes:ECS/Collision/DynamicCollisionComponent.h
 	void playerWin(int tileW, int tileH, bool collsioncornerX1, bool collsioncornerX2, bool collsioncornerY1, bool collsioncornerY2);
 
 	/**

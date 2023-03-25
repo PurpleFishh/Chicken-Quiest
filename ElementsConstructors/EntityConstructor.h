@@ -1,6 +1,6 @@
 #pragma once
-#include "ECS.h"
-#include "Vector2D.h"
+#include "../ECS/ECS.h"
+#include "../Utils/Vector2D.h"
 #include "SDL_ttf.h"
 
 /**
@@ -72,9 +72,7 @@ public:
 	* @return return reference to the text
 	*/
 	static Entity& spawnText(const Vector2D& spawn_position, std::string text);
-<<<<<<< Updated upstream:EntityConstructor.h
 	static Entity& spawnInfoBar(const Vector2D& spawn_position, SDL_Color color);
-=======
 	/**
 	* @brief Method that creates and spawn the info bar
 	* @param scen - scene where the info bar will be created
@@ -85,7 +83,6 @@ public:
 	* @return return reference to the info bar
 	*/
 	static Entity& spawnInfoBar(int scen, int layer, const Vector2D& spawn_position, SDL_Color color, const std::string& facilities);
->>>>>>> Stashed changes:ElementsConstructors/EntityConstructor.h
 
 	/**
 	* @brief Method that called after the animation play once
