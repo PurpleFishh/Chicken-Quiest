@@ -1,5 +1,8 @@
 #pragma once
 
+/**
+* @brief Components header file where all components are included
+*/
 #include "ECS.h"
 #include "Visual/SpriteComponent.h"
 #include "Movement/PositionComponent.h"

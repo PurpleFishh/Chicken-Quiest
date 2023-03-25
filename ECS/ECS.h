@@ -14,13 +14,18 @@ using namespace std;
 class Component;
 class Entity;
 
-// Obtinem urmatorul id valid
+/// Obtain the next valid id
 inline size_t getComponentId()
 {
 	static size_t lastComponentId = 0;
 	return lastComponentId++;
 }
 
+/// <summary>
+/// Obtain the id of the component
+/// </summary>
+/// <typeparam name="T">The component to find it's id</typeparam>
+/// <returns></returns>
 template <typename T>
 inline size_t getComponentId()
 {
@@ -30,44 +35,80 @@ inline size_t getComponentId()
 	return lastComponentId;
 }
 
+/**
+* @brief Compoent is an absstract class that is used to create components for entities
+*/
 class Component
 {
 public:
-	// Entitatea careia ii este asociata componenta
+	/// The entity that owns the component
 	Entity* entity = nullptr;
 
-	// Functiile componentei pe care le voim suprascrie in functie de caz
+	/**
+	* @brief This function is used to initialize the component
+	*/
 	virtual void init() {}
+	/**
+	 * @brief This function is used to update the component
+	*/
 	virtual void update() {}
+	/**
+	 * @brief This function is used to handle the events of the component
+	*/
 	virtual void handleEvents() {}
+	/**
+	 * @brief This function is used to render the component
+	*/
 	virtual void draw() {}
+	/**
+	 * @brief This function is used to destroy the component
+	*/
 	virtual ~Component() {}
 };
 
-
+/**
+ * @brief Used to create entities and add components to them
+*/
 class Entity
 {
 private:
-	// Daca entitatea este activa
+	/// <summary>
+	/// If the entity is active or not
+	/// </summary>
 	bool active = true;
 	
+	/// <summary>
+	/// A vector of the components that are associated with the entity
+	/// </summary>
 	vector<unique_ptr<Component>> components;
 
-	// Bifam ce componente sunt asociate entitatii
+	/// <summary>
+	/// Check the components that te entity owns
+	/// </summary>
 	bitset<maxComponents> componentBitset;
-	// Stocarea componentelor in functie de id-ul obtinut la inregistrare
+	
+	/// <summary>
+	/// An array of the components that are associated with the entity using the index as the id of the component
+	/// </summary>
 	array<Component*, maxComponents> componentArray;
 	
-	// -1 -> nu face parte din niciun Layer
+	/// <summary>
+	/// The id of the layer that the entity is in(-1 if the entity is not in a layer)
+	/// </summary>
 	int Layer_Id = -1;
 public:
+	/**
+	 * @brief This function is called when the entity is destroyed
+	*/
 	~Entity()
 	{
 		active = false;
 		cout << "Entity destroyed" << endl;
 	}
 	
-	// Executam functia de update pentru toate componentele
+	/**
+	 * @brief Call the update function for all the components that the entity has
+	*/
 	void update()
 	{
 		for (auto& component : components)
@@ -75,35 +116,52 @@ public:
 			component->update();
 		}
 	}
-	// Executam functia de draw pentru toate componentele
+	/**
+	 * @brief Call the draw function for all the components that the entity has
+	*/
 	void draw()
 	{
 		for (auto& component : components)
 			component->draw();
 	}
+	/**
+	 * @brief Call the handleEvents function for all the components that the entity has
+	*/
 	void handleEvents()
 	{
 		for (auto& component : components)
 			component->handleEvents();
 	}
+	/**
+	 * @brief Get is the entity is active
+	 * @return return true if the entity is active and false if it is not
+	*/
 	bool isActive()
 	{
 		return active;
 	}
-	// Setam active pe false urmand ca entitatea sa fie dinstrusa in functia System::inactive_verify
+	/**
+	 * @brief Set the entity to inactive and the entity wil be destroyed in the System::inactive_verify function
+	*/
 	void destroy()
 	{
 		active = false;
 	}
 	
-	// Verificam daca componenta respectiva este asociata entitatii
+	/**
+	 * @brief Get if the entity has a component
+	 * @return return true if the entity has the component and false if it does not
+	*/
 	template<typename T>
 	bool hasComponent()
 	{
 		return componentBitset[getComponentId<T>()];
 	}
 	
-	// Adaugam componente entitatii
+	/**
+	 * @brief Add a component to the entity
+	 * @return return a referince to the component that was added
+	*/
 	template<typename T, typename... TArgs>
 	T& addCompoent(TArgs&& ... args)
 	{
@@ -119,7 +177,10 @@ public:
 		return *c;
 	}
 
-	// Obtinem componenta dorita
+	/**
+	 * @brief Get a component from the entity
+	 * @return return a pointer to the component
+	*/
 	template<typename T>
 	T* getComponent()
 	{
@@ -127,24 +188,40 @@ public:
 
 		return static_cast<T*>(component);
 	}
-
+	
+	/**
+	* @brief Set the layer id of the entity
+	* @param id The id of the layer
+	*/
 	void setLayer_Id(int id)
 	{
 		Layer_Id = id;
 	}
+	/**
+	* @brief Get the layer id of the entity
+	* @return return the id of the layer
+	*/
 	inline int getLayer_Id()
 	{
 		return Layer_Id;
 	}
 };
 
+/**
+* @brief Used to store and manager all the entities
+*/
 class System
 {
 private:
+	/// <summary>
+	/// A vector of all the entities
+	/// </summary>
 	vector<unique_ptr<Entity>> entities;
 
 public:
-	// Executam functia de update pentru toate entitatile
+	/**
+	* @brief Update all the entities by calling the update function for each entity
+	*/
 	void update()
 	{
 		for (auto& entity : entities)
@@ -152,7 +229,9 @@ public:
 			entity->update();
 		}
 	}
-	// Executam functia de draw pentru toate entitatile
+	/**
+	* @brief Draw all the entities by calling the draw function for each entity
+	*/
 	void draw()
 	{
 		for (auto& entity : entities)
@@ -160,6 +239,9 @@ public:
 			entity->draw();
 		}
 	}
+	/**
+	* @brief Handle all the events of all the entities by calling the handleEvents function for each entity
+	*/
 	void handleEvents()
 	{
 		for (auto& entity : entities)
@@ -167,10 +249,15 @@ public:
 			entity->handleEvents();
 		}
 	}
-	// Stergem entitatile inactive
+	/**
+	* @brief Destroy all the entities that are inactive and remove them from the layers that they are in
+	*/
 	void inactive_verify();
 	
-	// Creare entitate
+	/**
+	* @brief Add an entity to the system
+	* @return return a referince to the entity that was added
+	*/
 	Entity& addEntity()
 	{
 		Entity* e = new Entity();

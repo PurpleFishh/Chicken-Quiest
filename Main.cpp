@@ -5,6 +5,10 @@
 
 using namespace std;
 
+/**
+* @brief Main function
+* @details It starts the game and execute the game loop, calls the ECS manager functions
+*/
 int main(int argc, char* args[])
 {
 	Game* game = new Game();
