@@ -1,312 +1,263 @@
 ﻿<?xml version="1.0" encoding="utf-8"?>
 <Project ToolsVersion="4.0" xmlns="http://schemas.microsoft.com/developer/msbuild/2003">
   <ItemGroup>
-    <Filter Include="Source Files">
-      <UniqueIdentifier>{4FC737F1-C7A5-4376-A066-2A32D752A2FF}</UniqueIdentifier>
-      <Extensions>cpp;c;cc;cxx;c++;cppm;ixx;def;odl;idl;hpj;bat;asm;asmx</Extensions>
-    </Filter>
-    <Filter Include="Header Files">
-      <UniqueIdentifier>{93995380-89BD-4b04-88EB-625FBE52EBFB}</UniqueIdentifier>
-      <Extensions>h;hh;hpp;hxx;h++;hm;inl;inc;ipp;xsd</Extensions>
-    </Filter>
-    <Filter Include="Resource Files">
-      <UniqueIdentifier>{67DA6AB6-F800-4c08-8B7A-83BB121AAD01}</UniqueIdentifier>
-      <Extensions>rc;ico;cur;bmp;dlg;rc2;rct;bin;rgs;gif;jpg;jpeg;jpe;resx;tiff;tif;png;wav;mfcribbon-ms</Extensions>
-    </Filter>
-    <Filter Include="assets">
-      <UniqueIdentifier>{6486fffd-ec51-47f6-9a56-29fa21423832}</UniqueIdentifier>
-    </Filter>
-    <Filter Include="Header Files\ECS">
-      <UniqueIdentifier>{fdb624ab-ae00-4c62-ab76-dfd5a20ad4d5}</UniqueIdentifier>
-    </Filter>
-    <Filter Include="Source Files\ECS">
-      <UniqueIdentifier>{03642666-b955-4142-8c37-8673e1e79c00}</UniqueIdentifier>
-    </Filter>
-    <Filter Include="Source Files\Utils">
-      <UniqueIdentifier>{ffa86673-d285-4e67-a861-185c4dbd62fa}</UniqueIdentifier>
-    </Filter>
-    <Filter Include="Header Files\Utils">
-      <UniqueIdentifier>{ad1c8592-b23e-4fbc-b1d1-d853a303057d}</UniqueIdentifier>
-    </Filter>
-  </ItemGroup>
-  <ItemGroup>
-<<<<<<< Updated upstream
-    <ClCompile Include="Main.cpp">
-      <Filter>Source Files</Filter>
-=======
-    <ClCompile Include="ECS\Movement\AiBehaviour.cpp">
-      <Filter>Source Files\ECS\Movement</Filter>
+    <ClCompile Include="Game.cpp" />
+    <ClCompile Include="Main.cpp" />
+    <ClCompile Include="ECS\ECS.cpp">
+      <Filter>ECS</Filter>
     </ClCompile>
     <ClCompile Include="ECS\Camera\CameraTarget.cpp">
-      <Filter>Source Files\ECS\Camera</Filter>
+      <Filter>ECS\Camera</Filter>
     </ClCompile>
     <ClCompile Include="ECS\Collision\CollisionComponent.cpp">
-      <Filter>Source Files\ECS\Collision</Filter>
+      <Filter>ECS\Collision</Filter>
     </ClCompile>
     <ClCompile Include="ECS\Collision\DynamicCollisionComponent.cpp">
-      <Filter>Source Files\ECS\Collision</Filter>
+      <Filter>ECS\Collision</Filter>
     </ClCompile>
     <ClCompile Include="ECS\Collision\DynamicCollisionComponent2.cpp">
-      <Filter>Source Files\ECS\Collision</Filter>
-    </ClCompile>
-    <ClCompile Include="ECS\Visual\InfoBar.cpp">
-      <Filter>Source Files\ECS\Visual</Filter>
-    </ClCompile>
-    <ClCompile Include="ECS\Visual\SpriteComponent.cpp">
-      <Filter>Source Files\ECS\Visual</Filter>
-    </ClCompile>
-    <ClCompile Include="ECS\Visual\TextComponent.cpp">
-      <Filter>Source Files\ECS\Visual</Filter>
-    </ClCompile>
-    <ClCompile Include="ECS\Map\TileComponent.cpp">
-      <Filter>Source Files\ECS\Map</Filter>
-    </ClCompile>
-    <ClCompile Include="ECS\Movement\KeyboardControllerComponent.cpp">
-      <Filter>Source Files\ECS\Movement</Filter>
-    </ClCompile>
-    <ClCompile Include="ECS\Movement\PositionComponent.cpp">
-      <Filter>Source Files\ECS\Movement</Filter>
-    </ClCompile>
-    <ClCompile Include="ECS\ECS.cpp">
-      <Filter>Source Files\ECS</Filter>
-    </ClCompile>
-    <ClCompile Include="Utils\Vector2D.cpp">
-      <Filter>Source Files\Utils</Filter>
-    </ClCompile>
-    <ClCompile Include="Utils\TexturesTools\Animation.cpp">
-      <Filter>Source Files\Utils\TextureTools</Filter>
-    </ClCompile>
-    <ClCompile Include="Utils\CollisionUtils\CollisionUtils.cpp">
-      <Filter>Source Files\Utils\CollisionUtils</Filter>
-    </ClCompile>
-    <ClCompile Include="Utils\Eggs\EggBoom.cpp">
-      <Filter>Source Files\Utils\Eggs</Filter>
-    </ClCompile>
-    <ClCompile Include="Utils\TexturesTools\TextureManager.cpp">
-      <Filter>Source Files\Utils\TextureTools</Filter>
-    </ClCompile>
-    <ClCompile Include="Utils\TexturesTools\Textures.cpp">
-      <Filter>Source Files\Utils\TextureTools</Filter>
-    </ClCompile>
-    <ClCompile Include="ElementsConstructors\ScenesManager.cpp">
-      <Filter>Source Files\ElementsConstructors</Filter>
-    </ClCompile>
-    <ClCompile Include="ElementsConstructors\EntityConstructor.cpp">
-      <Filter>Source Files\ElementsConstructors</Filter>
-    </ClCompile>
-    <ClCompile Include="ElementsConstructors\MenuConstructor.cpp">
-      <Filter>Source Files\ElementsConstructors</Filter>
-    </ClCompile>
-    <ClCompile Include="Layering\Layering.cpp">
-      <Filter>Source Files\Layering</Filter>
-    </ClCompile>
-    <ClCompile Include="Managers\DeathManager\EntitiesDeathManager.cpp">
-      <Filter>Source Files\Managers\DeathManager</Filter>
-    </ClCompile>
-    <ClCompile Include="Map\Map.cpp">
-      <Filter>Source Files\Map</Filter>
->>>>>>> Stashed changes
-    </ClCompile>
-    <ClCompile Include="Game.cpp">
-      <Filter>Source Files</Filter>
-    </ClCompile>
-    <ClCompile Include="Map.cpp">
-      <Filter>Source Files</Filter>
-    </ClCompile>
-    <ClCompile Include="SpriteComponent.cpp">
-      <Filter>Source Files\ECS</Filter>
-    </ClCompile>
-    <ClCompile Include="PositionComponent.cpp">
-      <Filter>Source Files\ECS</Filter>
-    </ClCompile>
-    <ClCompile Include="KeyboardControllerComponent.cpp">
-      <Filter>Source Files\ECS</Filter>
-    </ClCompile>
-    <ClCompile Include="TileComponent.cpp">
-      <Filter>Source Files\ECS</Filter>
-    </ClCompile>
-    <ClCompile Include="Vector2D.cpp">
-      <Filter>Source Files\Utils</Filter>
-    </ClCompile>
-    <ClCompile Include="TextureManager.cpp">
-      <Filter>Source Files\Utils</Filter>
-    </ClCompile>
-    <ClCompile Include="Textures.cpp">
-      <Filter>Source Files\Utils</Filter>
-    </ClCompile>
-    <ClCompile Include="Layering.cpp">
-      <Filter>Source Files\Utils</Filter>
-    </ClCompile>
-    <ClCompile Include="CollisionComponent.cpp">
-      <Filter>Source Files\ECS</Filter>
-    </ClCompile>
-    <ClCompile Include="DynamicCollisionComponent.cpp">
-      <Filter>Source Files\ECS</Filter>
-    </ClCompile>
-    <ClCompile Include="CameraTarget.cpp">
-      <Filter>Source Files\ECS</Filter>
-    </ClCompile>
-    <ClCompile Include="ECS.cpp">
-      <Filter>Source Files\ECS</Filter>
-    </ClCompile>
-    <ClCompile Include="AiBehaviour.cpp">
-      <Filter>Source Files\ECS</Filter>
-    </ClCompile>
-    <ClCompile Include="DynamicCollisionComponent2.cpp">
-      <Filter>Source Files\ECS</Filter>
-    </ClCompile>
-    <ClCompile Include="Animation.cpp">
-      <Filter>Source Files\Utils</Filter>
-    </ClCompile>
-    <ClCompile Include="EggBoom.cpp">
-      <Filter>Source Files\ECS</Filter>
-    </ClCompile>
-    <ClCompile Include="EntitiesDeathManager.cpp">
-      <Filter>Source Files\Utils</Filter>
-    </ClCompile>
-    <ClCompile Include="EntityConstructor.cpp">
-      <Filter>Source Files\Utils</Filter>
-    </ClCompile>
-    <ClCompile Include="MenuConstructor.cpp">
-      <Filter>Source Files\Utils</Filter>
-    </ClCompile>
-    <ClCompile Include="ScenesManager.cpp">
-      <Filter>Source Files\Utils</Filter>
-    </ClCompile>
-    <ClCompile Include="MouseCollision.cpp">
-      <Filter>Source Files\ECS</Filter>
-    </ClCompile>
-    <ClCompile Include="CollisionUtils.cpp">
-      <Filter>Source Files\Utils</Filter>
-    </ClCompile>
-    <ClCompile Include="TextComponent.cpp">
-      <Filter>Source Files\ECS</Filter>
-    </ClCompile>
-    <ClCompile Include="InfoBar.cpp">
-      <Filter>Source Files\ECS</Filter>
+      <Filter>ECS\Collision</Filter>
     </ClCompile>
     <ClCompile Include="ECS\Collision\MouseCollision.cpp">
-      <Filter>Source Files\ECS\Collision</Filter>
+      <Filter>ECS\Collision</Filter>
+    </ClCompile>
+    <ClCompile Include="ECS\Map\TileComponent.cpp">
+      <Filter>ECS\Map</Filter>
+    </ClCompile>
+    <ClCompile Include="ECS\Movement\AiBehaviour.cpp">
+      <Filter>ECS\Movement</Filter>
+    </ClCompile>
+    <ClCompile Include="ECS\Movement\KeyboardControllerComponent.cpp">
+      <Filter>ECS\Movement</Filter>
+    </ClCompile>
+    <ClCompile Include="ECS\Movement\PositionComponent.cpp">
+      <Filter>ECS\Movement</Filter>
+    </ClCompile>
+    <ClCompile Include="ECS\Visual\InfoBar.cpp">
+      <Filter>ECS\Visual</Filter>
+    </ClCompile>
+    <ClCompile Include="ECS\Visual\SpriteComponent.cpp">
+      <Filter>ECS\Visual</Filter>
+    </ClCompile>
+    <ClCompile Include="ECS\Visual\TextComponent.cpp">
+      <Filter>ECS\Visual</Filter>
+    </ClCompile>
+    <ClCompile Include="ElementsConstructors\EntityConstructor.cpp">
+      <Filter>ElementsConstructors</Filter>
+    </ClCompile>
+    <ClCompile Include="ElementsConstructors\MenuConstructor.cpp">
+      <Filter>ElementsConstructors</Filter>
+    </ClCompile>
+    <ClCompile Include="ElementsConstructors\ScenesManager.cpp">
+      <Filter>ElementsConstructors</Filter>
+    </ClCompile>
+    <ClCompile Include="Layering\Layering.cpp">
+      <Filter>Layering</Filter>
+    </ClCompile>
+    <ClCompile Include="Managers\DeathManager\EntitiesDeathManager.cpp">
+      <Filter>Managers\DeathManager</Filter>
+    </ClCompile>
+    <ClCompile Include="Map\Map.cpp">
+      <Filter>Map</Filter>
+    </ClCompile>
+    <ClCompile Include="Utils\Vector2D.cpp">
+      <Filter>Utils</Filter>
+    </ClCompile>
+    <ClCompile Include="Utils\CollisionUtils\CollisionUtils.cpp">
+      <Filter>Utils\CollisionUtils</Filter>
+    </ClCompile>
+    <ClCompile Include="Utils\Eggs\EggBoom.cpp">
+      <Filter>Utils\Eggs</Filter>
+    </ClCompile>
+    <ClCompile Include="Utils\InfoStorage\GameInfoStorage.cpp">
+      <Filter>Utils\InfoStorage</Filter>
+    </ClCompile>
+    <ClCompile Include="Utils\TexturesTools\Animation.cpp">
+      <Filter>Utils\TexturesTools</Filter>
+    </ClCompile>
+    <ClCompile Include="Utils\TexturesTools\TextureManager.cpp">
+      <Filter>Utils\TexturesTools</Filter>
+    </ClCompile>
+    <ClCompile Include="Utils\TexturesTools\Textures.cpp">
+      <Filter>Utils\TexturesTools</Filter>
     </ClCompile>
   </ItemGroup>
   <ItemGroup>
-    <ClInclude Include="Game.h">
-      <Filter>Header Files</Filter>
+    <ClInclude Include="Game.h" />
+    <ClInclude Include="settings.h" />
+    <ClInclude Include="ECS\ECS.h">
+      <Filter>ECS</Filter>
     </ClInclude>
-    <ClInclude Include="Map.h">
-      <Filter>Header Files</Filter>
+    <ClInclude Include="ECS\Components.h">
+      <Filter>ECS</Filter>
     </ClInclude>
-    <ClInclude Include="ECS.h">
-      <Filter>Header Files\ECS</Filter>
+    <ClInclude Include="ECS\Camera\CameraTarget.h">
+      <Filter>ECS\Camera</Filter>
     </ClInclude>
-    <ClInclude Include="Components.h">
-      <Filter>Header Files\ECS</Filter>
+    <ClInclude Include="ECS\Collision\CollisionComponent.h">
+      <Filter>ECS\Collision</Filter>
     </ClInclude>
-    <ClInclude Include="SpriteComponent.h">
-      <Filter>Header Files\ECS</Filter>
+    <ClInclude Include="ECS\Collision\DynamicCollisionComponent.h">
+      <Filter>ECS\Collision</Filter>
     </ClInclude>
-    <ClInclude Include="PositionComponent.h">
-      <Filter>Header Files\ECS</Filter>
+    <ClInclude Include="ECS\Collision\DynamicCollisionComponent2.h">
+      <Filter>ECS\Collision</Filter>
     </ClInclude>
-    <ClInclude Include="KeyboardControllerComponent.h">
-      <Filter>Header Files\ECS</Filter>
+    <ClInclude Include="ECS\Collision\MouseCollision.h">
+      <Filter>ECS\Collision</Filter>
     </ClInclude>
-    <ClInclude Include="TileComponent.h">
-      <Filter>Header Files\ECS</Filter>
+    <ClInclude Include="ECS\Map\TileComponent.h">
+      <Filter>ECS\Map</Filter>
     </ClInclude>
-    <ClInclude Include="Layering.h">
-      <Filter>Header Files\Utils</Filter>
+    <ClInclude Include="ECS\Movement\AiBehaviour.h">
+      <Filter>ECS\Movement</Filter>
     </ClInclude>
-    <ClInclude Include="TextureManager.h">
-      <Filter>Header Files\Utils</Filter>
+    <ClInclude Include="ECS\Movement\KeyboardControllerComponent.h">
+      <Filter>ECS\Movement</Filter>
     </ClInclude>
-    <ClInclude Include="Textures.h">
-      <Filter>Header Files\Utils</Filter>
+    <ClInclude Include="ECS\Movement\PositionComponent.h">
+      <Filter>ECS\Movement</Filter>
     </ClInclude>
-    <ClInclude Include="Vector2D.h">
-      <Filter>Header Files\Utils</Filter>
+    <ClInclude Include="ECS\Visual\InfoBar.h">
+      <Filter>ECS\Visual</Filter>
     </ClInclude>
-    <ClInclude Include="CollisionComponent.h">
-      <Filter>Header Files\ECS</Filter>
+    <ClInclude Include="ECS\Visual\SpriteComponent.h">
+      <Filter>ECS\Visual</Filter>
     </ClInclude>
-    <ClInclude Include="DynamicCollisionComponent.h">
-      <Filter>Header Files\ECS</Filter>
+    <ClInclude Include="ECS\Visual\TextComponent.h">
+      <Filter>ECS\Visual</Filter>
     </ClInclude>
-    <ClInclude Include="CameraTarget.h">
-      <Filter>Header Files\ECS</Filter>
+    <ClInclude Include="ElementsConstructors\EntityConstructor.h">
+      <Filter>ElementsConstructors</Filter>
     </ClInclude>
-    <ClInclude Include="AiBehaviour.h">
-      <Filter>Header Files\ECS</Filter>
+    <ClInclude Include="ElementsConstructors\MenuConstructor.h">
+      <Filter>ElementsConstructors</Filter>
     </ClInclude>
-    <ClInclude Include="DynamicCollisionComponent2.h">
-      <Filter>Header Files\ECS</Filter>
+    <ClInclude Include="ElementsConstructors\ScenesManager.h">
+      <Filter>ElementsConstructors</Filter>
     </ClInclude>
-    <ClInclude Include="Animation.h">
-      <Filter>Header Files\Utils</Filter>
+    <ClInclude Include="Layering\Layering.h">
+      <Filter>Layering</Filter>
     </ClInclude>
-    <ClInclude Include="EggBoom.h">
-      <Filter>Header Files\ECS</Filter>
+    <ClInclude Include="Managers\DeathManager\EntitiesDeathManager.h">
+      <Filter>Managers\DeathManager</Filter>
     </ClInclude>
-    <ClInclude Include="EntitiesDeathManager.h">
-      <Filter>Header Files\Utils</Filter>
+    <ClInclude Include="Managers\ErrorHandler\ErrorHandler.h">
+      <Filter>Managers\ErrorHandler</Filter>
     </ClInclude>
-    <ClInclude Include="EntityConstructor.h">
-      <Filter>Header Files\Utils</Filter>
+    <ClInclude Include="Map\Map.h">
+      <Filter>Map</Filter>
     </ClInclude>
-    <ClInclude Include="MenuConstructor.h">
-      <Filter>Header Files\Utils</Filter>
+    <ClInclude Include="Utils\Vector2D.h">
+      <Filter>Utils</Filter>
     </ClInclude>
-    <ClInclude Include="ScenesManager.h">
-      <Filter>Header Files\Utils</Filter>
+    <ClInclude Include="Utils\CollisionUtils\CollisionUtils.h">
+      <Filter>Utils\CollisionUtils</Filter>
     </ClInclude>
-    <ClInclude Include="CollisionUtils.h">
-      <Filter>Header Files\Utils</Filter>
+    <ClInclude Include="Utils\Eggs\ChickenAttack.h">
+      <Filter>Utils\Eggs</Filter>
     </ClInclude>
-    <ClInclude Include="settings.h">
-      <Filter>Header Files</Filter>
+    <ClInclude Include="Utils\Eggs\EggBoom.h">
+      <Filter>Utils\Eggs</Filter>
     </ClInclude>
-    <ClInclude Include="TextComponent.h">
-      <Filter>Header Files\ECS</Filter>
+    <ClInclude Include="Utils\InfoStorage\GameInfoStorage.h">
+      <Filter>Utils\InfoStorage</Filter>
     </ClInclude>
-    <ClInclude Include="InfoBar.h">
-      <Filter>Header Files\ECS</Filter>
+    <ClInclude Include="Utils\TexturesTools\Animation.h">
+      <Filter>Utils\TexturesTools</Filter>
     </ClInclude>
-    <ClInclude Include="ErrorHandler.h">
-      <Filter>Header Files\Utils</Filter>
+    <ClInclude Include="Utils\TexturesTools\TextureManager.h">
+      <Filter>Utils\TexturesTools</Filter>
     </ClInclude>
-    <ClInclude Include="ChickenAttack.h">
-      <Filter>Header Files\ECS</Filter>
-    </ClInclude>
-    <ClInclude Include="MouseCollision.h">
-      <Filter>Header Files\ECS</Filter>
+    <ClInclude Include="Utils\TexturesTools\Textures.h">
+      <Filter>Utils\TexturesTools</Filter>
     </ClInclude>
   </ItemGroup>
   <ItemGroup>
-    <Image Include="assets\grass.png">
-      <Filter>assets</Filter>
-    </Image>
     <Image Include="assets\dirt.png">
-      <Filter>assets</Filter>
+      <Filter>Assets</Filter>
     </Image>
     <Image Include="assets\chicken.png">
-      <Filter>assets</Filter>
+      <Filter>Assets</Filter>
+    </Image>
+    <Image Include="assets\grass.png">
+      <Filter>Assets</Filter>
     </Image>
   </ItemGroup>
   <ItemGroup>
-    <None Include="lvl_map_1.data">
-      <Filter>Resource Files</Filter>
+    <None Include="GameMaps\lvl_map_1.data">
+      <Filter>GameMaps</Filter>
     </None>
-    <None Include="lvl_map_2.data">
-      <Filter>Resource Files</Filter>
+    <None Include="GameMaps\lvl_map_2.data">
+      <Filter>GameMaps</Filter>
     </None>
-    <None Include="lvl_map_3.data">
-      <Filter>Resource Files</Filter>
+    <None Include="GameMaps\lvl_map_3.data">
+      <Filter>GameMaps</Filter>
     </None>
-    <None Include="lvl_map_4.data">
-      <Filter>Resource Files</Filter>
+    <None Include="GameMaps\lvl_map_4.data">
+      <Filter>GameMaps</Filter>
     </None>
-    <None Include="lvl_map_5.data">
-      <Filter>Resource Files</Filter>
+    <None Include="GameMaps\lvl_map_5.data">
+      <Filter>GameMaps</Filter>
     </None>
+  </ItemGroup>
+  <ItemGroup>
+    <Filter Include="ECS">
+      <UniqueIdentifier>{8f7a1bfc-713c-4796-8d05-234c3eaec2a9}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="ElementsConstructors">
+      <UniqueIdentifier>{41b39e44-6520-49da-af59-10b2e51bf14b}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="GameMaps">
+      <UniqueIdentifier>{b853a1cf-9ade-48ee-b66a-225a743655a8}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="Layering">
+      <UniqueIdentifier>{e4adc9d1-725e-4b73-a1bb-a338b8c27197}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="Managers">
+      <UniqueIdentifier>{6a6d6aae-354f-4412-b3c3-0267073e3e81}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="Map">
+      <UniqueIdentifier>{28fe06ad-9dee-4b2c-b25a-4e69f7cdba61}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="Utils">
+      <UniqueIdentifier>{4195d164-eaef-4364-9ebf-b07be47251fa}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="ECS\Camera">
+      <UniqueIdentifier>{c345fc67-8bb9-473c-8a9d-fc52fbbd50b1}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="ECS\Collision">
+      <UniqueIdentifier>{b460871b-d1f7-4873-8df4-61f4396346f1}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="ECS\Map">
+      <UniqueIdentifier>{27df06d3-3b71-4ad0-a525-d07988bad63b}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="ECS\Movement">
+      <UniqueIdentifier>{854f887c-f7f5-4aeb-b28f-9daafb2c4fd7}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="ECS\Visual">
+      <UniqueIdentifier>{19d85a05-bfec-4ebe-bf31-6d8d288bc4f6}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="Managers\DeathManager">
+      <UniqueIdentifier>{1261ceb6-cbda-4dde-9422-d7f7cf870d56}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="Managers\ErrorHandler">
+      <UniqueIdentifier>{f43af7f6-8533-435f-a072-f22e7f05f844}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="Utils\CollisionUtils">
+      <UniqueIdentifier>{1a14e95e-e417-4ce5-9421-4edb6d9d6e46}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="Utils\Eggs">
+      <UniqueIdentifier>{3a83b7c8-2055-4972-8dc7-6ba83cff564c}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="Utils\InfoStorage">
+      <UniqueIdentifier>{abf31866-81f9-457b-9ea5-f926a1ace074}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="Utils\TexturesTools">
+      <UniqueIdentifier>{53277bf3-a718-4a04-b31d-647693fc6e41}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="Assets">
+      <UniqueIdentifier>{aea9c567-4d6d-4a85-88de-83635b5f658d}</UniqueIdentifier>
+    </Filter>
   </ItemGroup>
 </Project>
